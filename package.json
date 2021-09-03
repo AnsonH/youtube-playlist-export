@@ -1,19 +1,7 @@
 {
   "name": "youtube-playlist-export",
-  "description": "A command line app for exporting YouTube playlist data into CSV file",
   "version": "1.0.0",
-  "author": {
-    "name": "AnsonH",
-    "email": "ansonheung2000@gmail.com",
-    "url": "https://ansonheung.me"
-  },
-  "bin": {
-    "ytpl-export": "./bin/ytpl-export.js",
-    "youtube-playlist-export": "./bin/ytpl-export.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "A command line app for exporting YouTube playlist data into CSV file",
   "keywords": [
     "youtube",
     "playlist",
@@ -25,6 +13,22 @@
     "command line"
   ],
   "license": "MIT",
+  "author": {
+    "name": "AnsonH",
+    "email": "ansonheung2000@gmail.com",
+    "url": "https://ansonheung.me"
+  },
+  "bin": {
+    "ytpl-export": "./index.js",
+    "youtube-playlist-export": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AnsonH/youtube-playlist-export.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "axios": "^0.21.1",
     "chalk": "^4.1.2",
