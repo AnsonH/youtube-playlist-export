@@ -28,8 +28,14 @@ Example:
   )
   .action(idActionHandler);
 
-program.command("key").description("Manage your YouTube API key.").action(keyActionHandler);
+program
+  .command("key")
+  .description("Manage your YouTube API key.")
+  .action(keyActionHandler);
 
-program.command("config").description("Manage preferences of this app.").action(configActionHandler);
+program
+  .command("config")
+  .description("Manage preferences of this app.")
+  .action(configActionHandler);
 
 program.parse(process.argv);

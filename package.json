@@ -27,7 +27,8 @@
     "url": "https://github.com/AnsonH/youtube-playlist-export.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write **/*.{js,md}",
+    "lint": "eslint **/*.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -35,5 +36,9 @@
     "commander": "^8.1.0",
     "inquirer": "^8.1.2",
     "ora": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "prettier": "^2.3.2"
   }
 }
