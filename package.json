@@ -28,7 +28,8 @@
   },
   "scripts": {
     "format": "prettier --write **/*.{js,md}",
-    "lint": "eslint **/*.js"
+    "lint": "eslint **/*.js --fix",
+    "prepare": "husky install"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -39,6 +40,21 @@
   },
   "devDependencies": {
     "eslint": "^7.32.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
     "prettier": "^2.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,md}": [
+      "npm run format"
+    ],
+    "**/*.js": [
+      "npm run lint"
+    ]
   }
 }
