@@ -19,8 +19,8 @@
     "url": "https://ansonheung.me"
   },
   "bin": {
-    "ytpl-export": "./index.js",
-    "youtube-playlist-export": "./index.js"
+    "ytpl-export": "./cli.js",
+    "youtube-playlist-export": "./cli.js"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,7 @@
     "axios": "^0.21.1",
     "chalk": "^4.1.2",
     "commander": "^8.1.0",
+    "conf": "^10.0.2",
     "inquirer": "^8.1.2",
     "ora": "^6.0.0"
   },
