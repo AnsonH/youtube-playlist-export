@@ -5,4 +5,4 @@ const configActionHandler = () => {
   console.log("config command invoked");
 };
 
-module.exports = configActionHandler;
+export default configActionHandler;

@@ -5,4 +5,4 @@ const keyActionHandler = () => {
   console.log("key command invoked");
 };
 
-module.exports = keyActionHandler;
+export default keyActionHandler;

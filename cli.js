@@ -1,41 +1,45 @@
 #!/usr/bin/env node
 
-const chalk = require("chalk");
-const { program } = require("commander");
-const idActionHandler = require("./commands/id");
-const keyActionHandler = require("./commands/key");
-const configActionHandler = require("./commands/config");
-const packageJson = require("./package.json");
+import chalk from "chalk";
+import { program } from "commander";
+import idActionHandler from "./commands/id.js";
+import keyActionHandler from "./commands/key.js";
+import configActionHandler from "./commands/config.js";
+import { readPackage } from "read-pkg";
 
-program.name("ytpl-export").version(packageJson.version);
+(async () => {
+  const packageJson = await readPackage();
 
-program
-  .command("id")
-  .description("Export data of a playlist by its ID.")
-  .argument(
-    "<playlistId>",
-    `The value of the "list" parameter in the the playlist homepage URL (https://www.youtube.com/playlist?list=${chalk.greenBright(
-      "[playlistId]"
-    )})`
-  )
-  .option("-d, --default", "Skip all questions and use the default config")
-  .addHelpText(
-    "after",
-    `
+  program.name("ytpl-export").version(packageJson.version);
+
+  program
+    .command("id")
+    .description("Export data of a playlist by its ID.")
+    .argument(
+      "<playlistId>",
+      `The value of the "list" parameter in the the playlist homepage URL (https://www.youtube.com/playlist?list=${chalk.greenBright(
+        "[playlistId]"
+      )})`
+    )
+    .option("-d, --default", "Skip all questions and use the default config")
+    .addHelpText(
+      "after",
+      `
 Example:
  $ ytpl-export id PLBCF2DAC6FFB574DE 
     `
-  )
-  .action(idActionHandler);
+    )
+    .action(idActionHandler);
 
-program
-  .command("key")
-  .description("Manage your YouTube API key.")
-  .action(keyActionHandler);
+  program
+    .command("key")
+    .description("Manage your YouTube API key.")
+    .action(keyActionHandler);
 
-program
-  .command("config")
-  .description("Manage preferences of this app.")
-  .action(configActionHandler);
+  program
+    .command("config")
+    .description("Manage preferences of this app.")
+    .action(configActionHandler);
 
-program.parse(process.argv);
+  program.parse(process.argv);
+})();

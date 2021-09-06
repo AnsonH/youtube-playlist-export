@@ -8,4 +8,4 @@ const idActionHandler = (playlistId, options) => {
   console.log(options);
 };
 
-module.exports = idActionHandler;
+export default idActionHandler;

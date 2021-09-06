@@ -2,6 +2,10 @@
   "name": "youtube-playlist-export",
   "version": "1.0.0",
   "description": "A command line app for exporting YouTube playlist data into CSV file",
+  "type": "module",
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+  },
   "keywords": [
     "youtube",
     "playlist",
@@ -37,7 +41,8 @@
     "commander": "^8.1.0",
     "conf": "^10.0.2",
     "inquirer": "^8.1.2",
-    "ora": "^6.0.0"
+    "ora": "^6.0.0",
+    "read-pkg": "^7.0.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
