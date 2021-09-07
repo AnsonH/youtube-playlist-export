@@ -38,7 +38,9 @@ Example:
 
   program
     .command("config")
-    .description("Manage preferences of this app.")
+    .description("Edit configurations of this app.")
+    .option("-p, --path", "show the path of the config file")
+    .option("-r, --reset", "reset all configurations to default")
     .action(configActionHandler);
 
   program.parse(process.argv);
