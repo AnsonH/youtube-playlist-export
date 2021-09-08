@@ -57,10 +57,10 @@
   },
   "lint-staged": {
     "**/*.{js,md}": [
-      "npm run format"
+      "prettier --write"
     ],
     "**/*.js": [
-      "npm run lint"
+      "eslint --fix"
     ]
   }
 }

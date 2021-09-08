@@ -25,9 +25,7 @@ const configActionHandler = async (options) => {
 
     if (input.resetConfig) {
       config.resetAll();
-      console.log(
-        chalk.green("✔ Successfully reset all configurations to default.")
-      );
+      console.log(chalk.green("✔ Successfully reset all configurations to default."));
     }
   }
 };
