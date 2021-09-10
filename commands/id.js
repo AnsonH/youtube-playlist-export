@@ -43,9 +43,9 @@ const idActionHandler = async (playlistId, options) => {
     return;
   }
 
-  console.log(`▶ Playlist Title: ${chalk.magenta(metadata.title)}`);
+  console.log(`▶ Playlist Title: ${chalk.blueBright(metadata.title)}`);
   console.log(
-    `▶ Number of videos (including private videos): ${chalk.magenta(metadata.numOfVideos)}`
+    `▶ Number of videos (including private videos): ${chalk.blueBright(metadata.numOfVideos)}\n`
   );
 
   // Check if playlist is empty
@@ -72,8 +72,10 @@ const idActionHandler = async (playlistId, options) => {
           { name: "Title", value: "title" },
           { name: "Uploader", value: "uploader" },
           { name: "Uploader URL", value: "uploaderUrl" },
-          { name: "Description", value: "description" },
           { name: "URL", value: "url" },
+          { name: "Description", value: "description" },
+          { name: "Video privacy", value: "videoPrivacy" },
+          { name: "Publish time", value: "publishTime" },
         ],
         default: config.getExportItemsDefaults(),
         validate: (input) => {
