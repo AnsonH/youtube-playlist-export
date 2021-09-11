@@ -3,6 +3,7 @@ import inquirer from "inquirer";
 import ora from "ora";
 import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
 import Config from "../lib/Config.js";
+import saveFile from "../utils/saveFile.js";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`
@@ -54,9 +55,14 @@ const idActionHandler = async (playlistId, options) => {
     return;
   }
 
-  // User prompt
   let playlistData;
+  const saveFileOptions = {
+    fileExt: config.fileExt,
+    folderPath: config.folderPath,
+    playlistTitle: metadata.title,
+  };
 
+  // User prompt
   if (options.default) {
     // Skip all prompts for `--default` option
     const exportItems = config.getExportItemsDefaults();
@@ -75,7 +81,7 @@ const idActionHandler = async (playlistId, options) => {
           { name: "URL", value: "url" },
           { name: "Description", value: "description" },
           { name: "Video privacy", value: "videoPrivacy" },
-          { name: "Publish time", value: "publishTime" },
+          { name: "Publish time (UTC)", value: "publishTime" },
         ],
         default: config.getExportItemsDefaults(),
         validate: (input) => {
@@ -85,7 +91,26 @@ const idActionHandler = async (playlistId, options) => {
           return true;
         },
       },
+      {
+        type: "list",
+        name: "fileExt",
+        message: "Which file extension do you prefer?",
+        choices: [
+          { name: "CSV", value: "csv" },
+          { name: "JSON", value: "json" },
+        ],
+        default: 0, // CSV
+      },
+      {
+        type: "input",
+        name: "folderPath",
+        message: `Input the ${chalk.underline("folder")} path where the data will be saved to:`,
+        default: config.folderPath, // ~/ytpl-export
+      },
     ]);
+
+    saveFileOptions.fileExt = input.fileExt;
+    saveFileOptions.folderPath = input.folderPath;
 
     const dataSpinner = ora("Fetching playlist data...").start();
 
@@ -96,10 +121,11 @@ const idActionHandler = async (playlistId, options) => {
     } catch (error) {
       dataSpinner.fail("Failed in fetching playlist data");
       handleApiError(error);
+      return;
     }
   }
 
-  console.log(playlistData);
+  saveFile(playlistData, saveFileOptions);
 };
 
 /**
