@@ -4,7 +4,7 @@
   "description": "A command line app for exporting YouTube playlist data into a CSV/JSON file",
   "type": "module",
   "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    "node": ">=12"
   },
   "keywords": [
     "youtube",
