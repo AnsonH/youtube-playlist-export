@@ -3,7 +3,7 @@ import inquirer from "inquirer";
 import ora from "ora";
 import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
 import Config from "../lib/Config.js";
-import saveFile from "../utils/saveFile.js";
+import { saveFile, validateFolderPath } from "../utils/saveFile.js";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`
@@ -15,11 +15,8 @@ const idActionHandler = async (playlistId, options) => {
 
   // Check for "Watch Later"
   if (playlistId === "WL") {
-    console.log(
-      chalk.yellow(
-        "WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."
-      )
-    );
+    // prettier-ignore
+    console.log(chalk.yellow("WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."));
     console.log(chalk.yellow("Please try another playlist."));
     return;
   }
@@ -84,7 +81,7 @@ const idActionHandler = async (playlistId, options) => {
           { name: "Publish time (UTC)", value: "publishTime" },
         ],
         default: config.getExportItemsDefaults(),
-        validate: (input) => {
+        validate(input) {
           if (input.length === 0) {
             return chalk.red("Select at least 1 item to export");
           }
@@ -99,13 +96,15 @@ const idActionHandler = async (playlistId, options) => {
           { name: "CSV", value: "csv" },
           { name: "JSON", value: "json" },
         ],
-        default: 0, // CSV
+        default: 0,
       },
       {
         type: "input",
         name: "folderPath",
-        message: `Input the ${chalk.underline("folder")} path where the data will be saved to:`,
-        default: config.folderPath, // ~/ytpl-export
+        // prettier-ignore
+        message: `Input an ${chalk.underline("absolute")} path of a ${chalk.underline("folder")} where the data will be saved to:`,
+        default: config.folderPath,
+        validate: validateFolderPath,
       },
     ]);
 

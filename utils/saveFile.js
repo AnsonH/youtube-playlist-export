@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import fs from "fs";
+import isAbsolute from "is-absolute";
 import { Parser } from "json2csv";
 import path from "path";
 
@@ -8,7 +9,7 @@ import path from "path";
  * @param {object[]} playlistData
  * @param {{ fileExt: "csv"|"json", folderPath: string, playlistTitle: string }} options
  */
-function saveFile(playlistData, options) {
+export function saveFile(playlistData, options) {
   const { fileExt, folderPath, playlistTitle } = options;
 
   let output;
@@ -23,8 +24,14 @@ function saveFile(playlistData, options) {
 
   // Create download folder if not exist
   if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath, { recursive: true });
-    console.log(`${chalk.green("✔")} Created new folder: ${chalk.cyan(folderPath)}`);
+    try {
+      fs.mkdirSync(folderPath, { recursive: true });
+      console.log(`${chalk.green("✔")} Created new folder: ${chalk.cyan(folderPath)}`);
+    } catch (error) {
+      console.error(chalk.red(`✖ Error in creating new folder in ${folderPath}`));
+      console.error(error);
+      return;
+    }
   }
 
   // Save file
@@ -33,6 +40,7 @@ function saveFile(playlistData, options) {
   try {
     fs.writeFileSync(filePath, output);
   } catch (error) {
+    console.error(chalk.red(`✖ Error in saving file to ${filePath}`));
     console.error(error);
     return;
   }
@@ -55,4 +63,14 @@ function getFileName(playlistTitle, fileExt) {
   return `${currentDate}-${title}.${fileExt}`;
 }
 
-export default saveFile;
+/**
+ * Validates the output folder path.
+ * @param {string} input
+ */
+export function validateFolderPath(input) {
+  if (isAbsolute(input)) {
+    return true;
+  }
+
+  return chalk.red("Please enter a valid absolute path!");
+}
