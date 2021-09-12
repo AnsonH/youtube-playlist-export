@@ -3,7 +3,8 @@ import inquirer from "inquirer";
 import ora from "ora";
 import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
 import Config from "../lib/Config.js";
-import { saveFile, validateFolderPath } from "../utils/saveFile.js";
+import { exportOptionsPrompts } from "../lib/prompts.js";
+import { saveFile } from "../utils/saveFile.js";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`
@@ -65,48 +66,7 @@ const idActionHandler = async (playlistId, options) => {
     const exportItems = config.getExportItemsDefaults();
     playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfPages);
   } else {
-    const input = await inquirer.prompt([
-      {
-        type: "checkbox",
-        name: "exportItems",
-        message: "Which data do you want to export for each video?",
-        choices: [
-          { name: "Position in the playlist", value: "position" },
-          { name: "Title", value: "title" },
-          { name: "Uploader", value: "uploader" },
-          { name: "Uploader URL", value: "uploaderUrl" },
-          { name: "URL", value: "url" },
-          { name: "Description", value: "description" },
-          { name: "Video privacy", value: "videoPrivacy" },
-          { name: "Publish time (UTC)", value: "publishTime" },
-        ],
-        default: config.getExportItemsDefaults(),
-        validate(input) {
-          if (input.length === 0) {
-            return chalk.red("Select at least 1 item to export");
-          }
-          return true;
-        },
-      },
-      {
-        type: "list",
-        name: "fileExt",
-        message: "Which file extension do you prefer?",
-        choices: [
-          { name: "JSON", value: "json" },
-          { name: "CSV", value: "csv" },
-        ],
-        default: 0,
-      },
-      {
-        type: "input",
-        name: "folderPath",
-        // prettier-ignore
-        message: `Input an ${chalk.underline("absolute")} path of a ${chalk.underline("folder")} where the data will be saved to:`,
-        default: config.folderPath,
-        validate: validateFolderPath,
-      },
-    ]);
+    const input = await inquirer.prompt(exportOptionsPrompts());
 
     saveFileOptions.fileExt = input.fileExt;
     saveFileOptions.folderPath = input.folderPath;
