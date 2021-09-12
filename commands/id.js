@@ -63,7 +63,7 @@ const idActionHandler = async (playlistId, options) => {
   if (options.default) {
     // Skip all prompts for `--default` option
     const exportItems = config.getExportItemsDefaults();
-    playlistData = await getPlaylistData(playlistId, exportItems);
+    playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfPages);
   } else {
     const input = await inquirer.prompt([
       {
@@ -93,8 +93,8 @@ const idActionHandler = async (playlistId, options) => {
         name: "fileExt",
         message: "Which file extension do you prefer?",
         choices: [
-          { name: "CSV", value: "csv" },
           { name: "JSON", value: "json" },
+          { name: "CSV", value: "csv" },
         ],
         default: 0,
       },
@@ -115,7 +115,7 @@ const idActionHandler = async (playlistId, options) => {
 
     // Fetch playlist data
     try {
-      playlistData = await getPlaylistData(playlistId, input.exportItems);
+      playlistData = await getPlaylistData(playlistId, input.exportItems, metadata.numOfPages);
       dataSpinner.succeed("Fetched playlist data");
     } catch (error) {
       dataSpinner.fail("Failed in fetching playlist data");
@@ -135,14 +135,19 @@ function handleApiError(error) {
   const { status, reason } = JSON.parse(error.message);
 
   switch (reason) {
-    case "playlistNotFound": // 404
+    case "quotaExceeded":
+      // prettier-ignore
+      console.error(chalk.red(`ERROR (${status}): Your API key has exceeded the daily quota of 10,000 units.`));
+      // prettier-ignore
+      console.error(chalk.red("You cannot export more data until tomorrow when the quote usage resets."));
+      break;
+    case "playlistNotFound":
       console.error(chalk.red(`ERROR (${status}): Playlist cannot be found.`));
       console.error(chalk.red("This may be because the playlist visibility is set to private."));
       break;
     default:
-      console.error(
-        chalk.red(`ERROR (${status} ${reason}): Something went wrong. Please try again!`)
-      );
+      // prettier-ignore
+      console.error(chalk.red(`ERROR (${status} ${reason}): Something went wrong. Please try again!`));
       break;
   }
 }
