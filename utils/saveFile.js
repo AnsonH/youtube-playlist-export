@@ -58,7 +58,7 @@ function getFileName(playlistTitle, fileExt) {
   const currentDate = new Date().toISOString().substring(0, 10); // YYYY-MM-DD
 
   let title = playlistTitle.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters in file name
-  title = title.replace(/ /g, "-"); // Replace empty space with `-`
+  title = title.replace(/ /g, "_"); // Replace empty space with `_`
 
   return `${currentDate}-${title}.${fileExt}`;
 }

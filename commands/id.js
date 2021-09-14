@@ -64,26 +64,25 @@ const idActionHandler = async (playlistId, options) => {
   if (options.default) {
     // Skip all prompts for `--default` option
     const exportItems = config.getExportItemsDefaults();
-    playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfPages);
+    playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfVideos);
   } else {
     const input = await inquirer.prompt(exportOptionsPrompts());
+    console.log("");
 
     saveFileOptions.fileExt = input.fileExt;
     saveFileOptions.folderPath = input.folderPath;
 
-    const dataSpinner = ora("Fetching playlist data...").start();
-
     // Fetch playlist data
     try {
-      playlistData = await getPlaylistData(playlistId, input.exportItems, metadata.numOfPages);
-      dataSpinner.succeed("Fetched playlist data");
+      playlistData = await getPlaylistData(playlistId, input.exportItems, metadata.numOfVideos);
     } catch (error) {
-      dataSpinner.fail("Failed in fetching playlist data");
+      console.log("");
       handleApiError(error);
       return;
     }
   }
 
+  console.log("");
   saveFile(playlistData, saveFileOptions);
 };
 

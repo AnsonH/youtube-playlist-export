@@ -45,6 +45,7 @@
     "is-absolute": "^1.0.0",
     "json2csv": "^5.0.6",
     "ora": "^6.0.0",
+    "progress": "^2.0.3",
     "read-pkg": "^7.0.0"
   },
   "devDependencies": {
