@@ -4,7 +4,7 @@ import ora from "ora";
 import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
 import Config from "../lib/Config.js";
 import { exportOptionsPrompts } from "../lib/prompts.js";
-import { saveFile } from "../utils/saveFile.js";
+import saveFile from "../utils/saveFile.js";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`

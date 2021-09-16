@@ -9,7 +9,7 @@ import path from "path";
  * @param {object[]} playlistData
  * @param {{ fileExt: "csv"|"json", folderPath: string, playlistTitle: string }} options
  */
-export function saveFile(playlistData, options) {
+function saveFile(playlistData, options) {
   const { fileExt, folderPath, playlistTitle } = options;
 
   let output;
@@ -50,27 +50,35 @@ export function saveFile(playlistData, options) {
 
 /**
  * Generate a properly formatted file name.
- * @param {string} playlistTitle
- * @param {"csv"|"json"} fileExt
- * @returns {string} Example: `2021-09-20-Google-Search-Stories.csv`
+ * @param {string} fileName
+ * @param {string} fileExt
+ * @param {boolean} addDate   If `true`, append today's date (YYYY-MM-DD) at the beginning
+ * @example
+ * const fileName = getFileName("Hello: World", "json", true);
+ * console.log(fileName); // "2021-09-16-Hello_World.json"
  */
-function getFileName(playlistTitle, fileExt) {
-  const currentDate = new Date().toISOString().substring(0, 10); // YYYY-MM-DD
+function getFileName(fileName, fileExt, addDate = true) {
+  let name = fileName.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters in file name
+  name = name.replace(/ /g, "_"); // Replace empty space with `_`
 
-  let title = playlistTitle.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters in file name
-  title = title.replace(/ /g, "_"); // Replace empty space with `_`
-
-  return `${currentDate}-${title}.${fileExt}`;
+  if (addDate) {
+    const currentDate = new Date().toISOString().substring(0, 10);
+    return `${currentDate}-${name}.${fileExt}`;
+  } else {
+    return `${name}.${fileExt}`;
+  }
 }
 
 /**
  * Validates the output folder path.
  * @param {string} input
  */
-export function validateFolderPath(input) {
+function validateFolderPath(input) {
   if (isAbsolute(input)) {
     return true;
   }
 
   return chalk.red("Please enter a valid absolute path!");
 }
+
+export { saveFile as default, validateFolderPath };
