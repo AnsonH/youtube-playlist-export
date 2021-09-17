@@ -32,17 +32,21 @@ const configActionHandler = async (options) => {
             name: "Default export options (eg. Items to export, save location)",
             value: "exportOptions",
           },
+          { name: "Skipping private or deleted videos", value: "skipPrivateOrDeleted" },
           { name: "Exit", value: "exit" },
         ],
       },
     ]);
-
-    console.log(""); // New line
+    console.log("");
 
     switch (input.configItem) {
       case "exportOptions":
-        await editExportOptions(config);
+        await editExportOptions();
         console.log(chalk.green("✔ Successfully saved default export options.\n"));
+        break;
+      case "skipPrivateOrDeleted":
+        await editSkipPrivateOrDeleted();
+        console.log(chalk.green("✔ Successfully saved skipping private or deleted videos.\n"));
         break;
       case "exit":
         exit = true;
@@ -51,11 +55,9 @@ const configActionHandler = async (options) => {
   }
 };
 
-/**
- * Edit default export options.
- * @param {Config} config
- */
-async function editExportOptions(config) {
+async function editExportOptions() {
+  const config = new Config();
+
   const { exportItems, fileExt, folderPath } = await inquirer.prompt(exportOptionsPrompts());
 
   config.setExportItemsDefaults(exportItems);
@@ -63,11 +65,30 @@ async function editExportOptions(config) {
   config.folderPath = folderPath;
 }
 
-/**
- * Resets all configuration to default.
- * @param {Config} config
- */
-async function resetConfig(config) {
+async function editSkipPrivateOrDeleted() {
+  const config = new Config();
+
+  const { skipPrivateOrDeleted } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "skipPrivateOrDeleted",
+      message:
+        "Do you want to skip/ignore any private or deleted videos in the playlist?" +
+        "\nChoosing 'Skip' will NOT create an entry in the exported JSON/CSV file if the video is private/deleted.",
+      choices: [
+        { name: "Skip", value: true },
+        { name: "Do not skip", value: false },
+      ],
+      default: config.skipPrivateOrDeleted,
+    },
+  ]);
+
+  config.skipPrivateOrDeleted = skipPrivateOrDeleted;
+}
+
+async function resetConfig() {
+  const config = new Config();
+
   const input = await inquirer.prompt([
     {
       type: "confirm",

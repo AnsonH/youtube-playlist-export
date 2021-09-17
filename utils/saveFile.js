@@ -35,7 +35,7 @@ function saveFile(playlistData, options) {
   }
 
   // Save file
-  const filePath = path.join(folderPath, getFileName(playlistTitle, fileExt));
+  const filePath = path.join(folderPath, getExportFileName(playlistTitle, fileExt));
 
   try {
     fs.writeFileSync(filePath, output);
@@ -57,7 +57,7 @@ function saveFile(playlistData, options) {
  * const fileName = getFileName("Hello: World", "json", true);
  * console.log(fileName); // "2021-09-16-Hello_World.json"
  */
-function getFileName(fileName, fileExt, addDate = true) {
+function getExportFileName(fileName, fileExt, addDate = true) {
   let name = fileName.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters in file name
   name = name.replace(/ /g, "_"); // Replace empty space with `_`
 
