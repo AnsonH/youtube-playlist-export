@@ -15,7 +15,7 @@ async function setApiKey() {
     },
   ]);
 
-  config.apiKey = input.apiKey.trim();
+  config.set("apiKey", input.apiKey.trim());
   console.log(chalk.green("✔ Successfully set the API key."));
 }
 
@@ -24,9 +24,10 @@ async function setApiKey() {
  */
 const keyActionHandler = async () => {
   const config = new Config();
+  const apiKey = config.get("apiKey");
 
-  if (config.apiKey) {
-    console.log(`Your current YouTube API key is: ${chalk.yellow(config.apiKey)}`);
+  if (apiKey) {
+    console.log(`Your current YouTube API key is: ${chalk.yellow(apiKey)}`);
 
     const input = await inquirer.prompt([
       {
@@ -46,7 +47,7 @@ const keyActionHandler = async () => {
         setApiKey();
         break;
       case "removeKey":
-        config.removeApiKey();
+        config.set("apiKey", "");
         console.log(chalk.green("✔ Successfully removed the API key."));
         break;
       default:

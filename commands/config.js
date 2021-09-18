@@ -66,8 +66,8 @@ async function editExportOptions() {
   const { exportItems, fileExt, folderPath } = await inquirer.prompt(exportOptionsPrompts());
 
   config.setExportItemsDefaults(exportItems);
-  config.fileExt = fileExt;
-  config.folderPath = folderPath;
+  config.set("fileExt", fileExt);
+  config.set("folderPath", folderPath);
 }
 
 async function editNotifyUpdate() {
@@ -82,11 +82,11 @@ async function editNotifyUpdate() {
         { name: "Enable", value: true },
         { name: "Disable", value: false },
       ],
-      default: config.notifyUpdate,
+      default: config.get("notifyUpdate"),
     },
   ]);
 
-  config.notifyUpdate = notifyUpdate;
+  config.set("notifyUpdate", notifyUpdate);
 }
 
 async function editSkipPrivateOrDeleted() {
@@ -103,11 +103,11 @@ async function editSkipPrivateOrDeleted() {
         { name: "Skip", value: true },
         { name: "Do not skip", value: false },
       ],
-      default: config.skipPrivateOrDeleted,
+      default: config.get("skipPrivateOrDeleted"),
     },
   ]);
 
-  config.skipPrivateOrDeleted = skipPrivateOrDeleted;
+  config.set("skipPrivateOrDeleted", skipPrivateOrDeleted);
 }
 
 async function resetConfig() {

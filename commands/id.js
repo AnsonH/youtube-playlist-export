@@ -23,7 +23,7 @@ const idActionHandler = async (playlistId, options) => {
   }
 
   // Check if API key exists
-  if (!config.apiKey) {
+  if (!config.get("apiKey")) {
     console.log(`${chalk.yellow("WARNING:")} You haven't set your YouTube API key!`);
     console.log(`Run ${chalk.cyan("`ytpl-export key`")} to set the API key.`);
     return;
@@ -55,8 +55,8 @@ const idActionHandler = async (playlistId, options) => {
 
   let playlistData;
   const saveFileOptions = {
-    fileExt: config.fileExt,
-    folderPath: config.folderPath,
+    fileExt: config.get("fileExt"),
+    folderPath: config.get("folderPath"),
     playlistTitle: metadata.title,
   };
 
