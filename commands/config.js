@@ -33,6 +33,7 @@ const configActionHandler = async (options) => {
             value: "exportOptions",
           },
           { name: "Skipping private or deleted videos", value: "skipPrivateOrDeleted" },
+          { name: "Update notification", value: "notifyUpdate" },
           { name: "Exit", value: "exit" },
         ],
       },
@@ -42,11 +43,15 @@ const configActionHandler = async (options) => {
     switch (input.configItem) {
       case "exportOptions":
         await editExportOptions();
-        console.log(chalk.green("✔ Successfully saved default export options.\n"));
+        console.log(chalk.green("✔ Saved default export options.\n"));
+        break;
+      case "notifyUpdate":
+        await editNotifyUpdate();
+        console.log(chalk.green("✔ Saved update notification preference.\n"));
         break;
       case "skipPrivateOrDeleted":
         await editSkipPrivateOrDeleted();
-        console.log(chalk.green("✔ Successfully saved skipping private or deleted videos.\n"));
+        console.log(chalk.green("✔ Saved skipping private or deleted videos.\n"));
         break;
       case "exit":
         exit = true;
@@ -63,6 +68,25 @@ async function editExportOptions() {
   config.setExportItemsDefaults(exportItems);
   config.fileExt = fileExt;
   config.folderPath = folderPath;
+}
+
+async function editNotifyUpdate() {
+  const config = new Config();
+
+  const { notifyUpdate } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "notifyUpdate",
+      message: "Enable notification for new updates to the app?",
+      choices: [
+        { name: "Enable", value: true },
+        { name: "Disable", value: false },
+      ],
+      default: config.notifyUpdate,
+    },
+  ]);
+
+  config.notifyUpdate = notifyUpdate;
 }
 
 async function editSkipPrivateOrDeleted() {

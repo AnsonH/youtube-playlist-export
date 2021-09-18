@@ -2,15 +2,18 @@
 
 import chalk from "chalk";
 import { program } from "commander";
+import { readPackage } from "read-pkg";
+import updateNotifier from "update-notifier";
 import idActionHandler from "./commands/id.js";
 import keyActionHandler from "./commands/key.js";
 import configActionHandler from "./commands/config.js";
-import { readPackage } from "read-pkg";
 
 (async () => {
-  const packageJson = await readPackage();
+  const pkg = await readPackage();
 
-  program.name("ytpl-export").version(packageJson.version);
+  updateNotifier({ pkg }).notify();
+
+  program.name("ytpl-export").version(pkg.version);
 
   program
     .command("id")
