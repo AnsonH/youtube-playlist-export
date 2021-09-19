@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import c from "chalk";
 import inquirer from "inquirer";
 import { validateApiKey } from "../lib/api.js";
 import Config from "../lib/Config.js";
@@ -16,7 +16,7 @@ async function setApiKey() {
   ]);
 
   config.set("apiKey", input.apiKey.trim());
-  console.log(chalk.green("✔ Successfully set the API key."));
+  console.log(c.green("✔ Successfully set the API key."));
 }
 
 /**
@@ -27,7 +27,7 @@ const keyActionHandler = async () => {
   const apiKey = config.get("apiKey");
 
   if (apiKey) {
-    console.log(`Your current YouTube API key is: ${chalk.yellow(apiKey)}`);
+    console.log(`Your current YouTube API key is: ${c.yellow(apiKey)}`);
 
     const input = await inquirer.prompt([
       {
@@ -48,7 +48,7 @@ const keyActionHandler = async () => {
         break;
       case "removeKey":
         config.set("apiKey", "");
-        console.log(chalk.green("✔ Successfully removed the API key."));
+        console.log(c.green("✔ Successfully removed the API key."));
         break;
       default:
         break;
@@ -56,7 +56,7 @@ const keyActionHandler = async () => {
   } else {
     console.log("You haven't entered your YouTube API key!");
     console.log(
-      `Watch this 3 min. tutorial on how to get a YouTube API key (v3) - ${chalk.cyan.underline(
+      `Watch this 3 min. tutorial on how to get a YouTube API key (v3) - ${c.cyan.underline(
         "https://youtu.be/N18czV5tj5o"
       )}`
     );

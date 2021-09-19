@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import c from "chalk";
 import inquirer from "inquirer";
 import Config from "../lib/Config.js";
 import { exportOptionsPrompts } from "../lib/prompts.js";
@@ -11,7 +11,7 @@ const configActionHandler = async (options) => {
   const config = new Config();
 
   if (options.path) {
-    console.log(`Path of config file: ${chalk.cyan(config.path)}`);
+    console.log(`Path of config file: ${c.cyan(config.path)}`);
     return;
   }
 
@@ -43,15 +43,15 @@ const configActionHandler = async (options) => {
     switch (input.configItem) {
       case "exportOptions":
         await editExportOptions();
-        console.log(chalk.green("✔ Saved default export options.\n"));
+        console.log(c.green("✔ Saved default export options.\n"));
         break;
       case "notifyUpdate":
         await editNotifyUpdate();
-        console.log(chalk.green("✔ Saved update notification preference.\n"));
+        console.log(c.green("✔ Saved update notification preference.\n"));
         break;
       case "skipPrivateOrDeleted":
         await editSkipPrivateOrDeleted();
-        console.log(chalk.green("✔ Saved skipping private or deleted videos.\n"));
+        console.log(c.green("✔ Saved skipping private or deleted videos.\n"));
         break;
       case "exit":
         exit = true;
@@ -124,7 +124,7 @@ async function resetConfig() {
 
   if (input.resetConfig) {
     config.resetAll();
-    console.log(chalk.green("✔ Successfully reset all configurations to default."));
+    console.log(c.green("✔ Successfully reset all configurations to default."));
   }
 }
 

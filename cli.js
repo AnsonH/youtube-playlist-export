@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import chalk from "chalk";
+import c from "chalk";
 import { program } from "commander";
 import { readPackage } from "read-pkg";
 import updateNotifier from "update-notifier";
@@ -20,9 +20,8 @@ import configActionHandler from "./commands/config.js";
     .description("Export data of a playlist by its ID.")
     .argument(
       "<playlistId>",
-      `The value of the "list" parameter in the the playlist homepage URL (https://www.youtube.com/playlist?list=${chalk.greenBright(
-        "[playlistId]"
-      )})`
+      // prettier-ignore
+      `The value of the "list" parameter in the the playlist homepage URL (https://www.youtube.com/playlist?list=${c.greenBright("[playlistId]")})`
     )
     .option("-d, --default", "Skip all questions and use the default config")
     .addHelpText(

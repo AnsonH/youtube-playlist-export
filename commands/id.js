@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import c from "chalk";
 import inquirer from "inquirer";
 import ora from "ora";
 import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
@@ -17,15 +17,15 @@ const idActionHandler = async (playlistId, options) => {
   // Check for "Watch Later"
   if (playlistId === "WL") {
     // prettier-ignore
-    console.log(chalk.yellow("WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."));
-    console.log(chalk.yellow("Please try another playlist."));
+    console.log(c.yellow("WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."));
+    console.log(c.yellow("Please try another playlist."));
     return;
   }
 
   // Check if API key exists
   if (!config.get("apiKey")) {
-    console.log(`${chalk.yellow("WARNING:")} You haven't set your YouTube API key!`);
-    console.log(`Run ${chalk.cyan("`ytpl-export key`")} to set the API key.`);
+    console.log(`${c.yellow("WARNING:")} You haven't set your YouTube API key!`);
+    console.log(`Run ${c.cyan("`ytpl-export key`")} to set the API key.`);
     return;
   }
 
@@ -42,14 +42,14 @@ const idActionHandler = async (playlistId, options) => {
     return;
   }
 
-  console.log(`▶ Playlist Title: ${chalk.blueBright(metadata.title)}`);
+  console.log(`▶ Playlist Title: ${c.blueBright(metadata.title)}`);
   console.log(
-    `▶ Number of videos (including private videos): ${chalk.blueBright(metadata.numOfVideos)}\n`
+    `▶ Number of videos (including private videos): ${c.blueBright(metadata.numOfVideos)}\n`
   );
 
   // Check if playlist is empty
   if (metadata.numOfVideos === 0) {
-    console.log(chalk.green("This playlist is empty and there are no video data to export."));
+    console.log(c.green("This playlist is empty and there are no video data to export."));
     return;
   }
 
@@ -96,17 +96,16 @@ function handleApiError(error) {
   switch (reason) {
     case "quotaExceeded":
       // prettier-ignore
-      console.error(chalk.red(`ERROR (${status}): Your API key has exceeded the daily quota of 10,000 units.`));
+      console.error(c.red(`ERROR (${status}): Your API key has exceeded the daily quota of 10,000 units.`));
       // prettier-ignore
-      console.error(chalk.red("You cannot export more data until tomorrow when the quote usage resets."));
+      console.error(c.red("You cannot export more data until tomorrow when the quote usage resets."));
       break;
     case "playlistNotFound":
-      console.error(chalk.red(`ERROR (${status}): Playlist cannot be found.`));
-      console.error(chalk.red("This may be because the playlist visibility is set to private."));
+      console.error(c.red(`ERROR (${status}): Playlist cannot be found.`));
+      console.error(c.red("This may be because the playlist visibility is set to private."));
       break;
     default:
-      // prettier-ignore
-      console.error(chalk.red(`ERROR (${status} ${reason}): Something went wrong. Please try again!`));
+      console.error(c.red(`ERROR (${status} ${reason}): Something went wrong. Please try again!`));
       break;
   }
 }

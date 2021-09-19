@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import c from "chalk";
 import fs from "fs";
 import isAbsolute from "is-absolute";
 import { Parser } from "json2csv";
@@ -26,9 +26,9 @@ function saveFile(playlistData, options) {
   if (!fs.existsSync(folderPath)) {
     try {
       fs.mkdirSync(folderPath, { recursive: true });
-      console.log(`${chalk.green("✔")} Created new folder: ${chalk.cyan(folderPath)}`);
+      console.log(`${c.green("✔")} Created new folder: ${c.cyan(folderPath)}`);
     } catch (error) {
-      console.error(chalk.red(`✖ Error in creating new folder in ${folderPath}`));
+      console.error(c.red(`✖ Error in creating new folder in ${folderPath}`));
       console.error(error);
       return;
     }
@@ -40,12 +40,12 @@ function saveFile(playlistData, options) {
   try {
     fs.writeFileSync(filePath, output);
   } catch (error) {
-    console.error(chalk.red(`✖ Error in saving file to ${filePath}`));
+    console.error(c.red(`✖ Error in saving file to ${filePath}`));
     console.error(error);
     return;
   }
 
-  console.log(`${chalk.green("✔ Successfully exported to: " + filePath)}`);
+  console.log(`${c.green("✔ Successfully exported to: " + filePath)}`);
 }
 
 /**
@@ -78,7 +78,7 @@ function validateFolderPath(input) {
     return true;
   }
 
-  return chalk.red("Please enter a valid absolute path!");
+  return c.red("Please enter a valid absolute path!");
 }
 
 export { saveFile as default, validateFolderPath };
