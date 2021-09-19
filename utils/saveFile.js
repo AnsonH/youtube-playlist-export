@@ -1,6 +1,5 @@
 import c from "chalk";
 import fs from "fs";
-import isAbsolute from "is-absolute";
 import { Parser } from "json2csv";
 import path from "path";
 
@@ -12,6 +11,10 @@ import path from "path";
 function saveFile(playlistData, options) {
   const { fileExt, folderPath, playlistTitle } = options;
 
+  if (!createFolder(folderPath)) {
+    return;
+  }
+
   let output;
   switch (fileExt) {
     case "csv":
@@ -22,26 +25,13 @@ function saveFile(playlistData, options) {
       output = JSON.stringify(playlistData, null, 2);
   }
 
-  // Create download folder if not exist
-  if (!fs.existsSync(folderPath)) {
-    try {
-      fs.mkdirSync(folderPath, { recursive: true });
-      console.log(`${c.green("✔")} Created new folder: ${c.cyan(folderPath)}`);
-    } catch (error) {
-      console.error(c.red(`✖ Error in creating new folder in ${folderPath}`));
-      console.error(error);
-      return;
-    }
-  }
-
   // Save file
-  const filePath = path.join(folderPath, getExportFileName(playlistTitle, fileExt));
-
+  const filePath = path.join(folderPath, getExportName(playlistTitle, fileExt));
   try {
     fs.writeFileSync(filePath, output);
   } catch (error) {
     console.error(c.red(`✖ Error in saving file to ${filePath}`));
-    console.error(error);
+    console.error(c.red(error.message));
     return;
   }
 
@@ -49,36 +39,53 @@ function saveFile(playlistData, options) {
 }
 
 /**
- * Generate a properly formatted file name.
- * @param {string} fileName
- * @param {string} fileExt
- * @param {boolean} addDate   If `true`, append today's date (YYYY-MM-DD) at the beginning
- * @example
- * const fileName = getFileName("Hello: World", "json", true);
- * console.log(fileName); // "2021-09-16-Hello_World.json"
+ * Creates a folder if it does not exist.
+ * @param {string} path Folder path
+ * @returns {boolean} Whether the operation is successful.
  */
-function getExportFileName(fileName, fileExt, addDate = true) {
-  let name = fileName.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters in file name
-  name = name.replace(/ /g, "_"); // Replace empty space with `_`
-
-  if (addDate) {
-    const currentDate = new Date().toISOString().substring(0, 10);
-    return `${currentDate}-${name}.${fileExt}`;
+function createFolder(path) {
+  if (fs.existsSync(path)) {
+    return true;
   } else {
-    return `${name}.${fileExt}`;
+    try {
+      fs.mkdirSync(path, { recursive: true });
+
+      console.log(`${c.green("✔")} Created new folder: ${c.cyan(path)}`);
+      return true;
+    } catch (error) {
+      console.error(c.red(`✖ Error in creating new folder in ${path}\n${error.message}`));
+      return false;
+    }
   }
 }
 
 /**
- * Validates the output folder path.
- * @param {string} input
+ * Gets the exported playlist's file/folder name.
+ * @param {string} fileName
+ * @param {string} fileExt
+ * @example
+ * const fileName = getFileName("Hello: World", "json");
+ * console.log(fileName); // "2021-09-16-Hello_World.json"
  */
-function validateFolderPath(input) {
-  if (isAbsolute(input)) {
-    return true;
-  }
+function getExportName(fileName, fileExt = null) {
+  const name = formatName(fileName);
+  const currentDate = new Date().toISOString().substring(0, 10); // YYYY-MM-DD
 
-  return c.red("Please enter a valid absolute path!");
+  let output = `${currentDate}-${name}`;
+  if (fileExt) {
+    output += `.${fileExt}`;
+  }
+  return output;
 }
 
-export { saveFile as default, validateFolderPath };
+/**
+ * Formats a file/folder name.
+ * @param {string} fileName Name of file/folder
+ * @returns {string} Formatted name
+ */
+function formatName(name) {
+  let output = name.replace(/[<>:"/\\|?*]/g, ""); // Remove illegal characters
+  return output.replace(/ /g, "_"); // Replace empty space with `_`
+}
+
+export { saveFile as default };
