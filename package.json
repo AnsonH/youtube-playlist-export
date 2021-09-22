@@ -1,7 +1,7 @@
 {
   "name": "youtube-playlist-export",
   "version": "1.0.0",
-  "description": "A command line app for exporting YouTube playlist data into a JSON/CSV file",
+  "description": "A command line app for exporting video data from a YouTube playlist to a JSON/CSV file",
   "type": "module",
   "engines": {
     "node": ">=12"
@@ -24,8 +24,7 @@
     "url": "https://ansonheung.me"
   },
   "bin": {
-    "ytpl-export": "./cli.js",
-    "youtube-playlist-export": "./cli.js"
+    "ytpl-export": "./cli.js"
   },
   "repository": {
     "type": "git",

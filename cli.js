@@ -15,9 +15,11 @@ import configActionHandler from "./commands/config.js";
 
   program.name("ytpl-export").version(pkg.version);
 
+  program.addHelpText("before", "Exports video data from a YouTube playlist to JSON/CSV file.\n");
+
   program
     .command("id")
-    .description("Export data of a playlist by its ID.")
+    .description("Export video metadata of a playlist by its playlist ID.")
     .argument(
       "<playlistId>",
       // prettier-ignore

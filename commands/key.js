@@ -56,7 +56,7 @@ const keyActionHandler = async () => {
   } else {
     console.log("You haven't entered your YouTube API key!");
     console.log(
-      `Watch this 3 min. tutorial on how to get a YouTube API key (v3) - ${c.cyan.underline(
+      `Watch this 3 min. tutorial on how to get a YouTube API key (v3) for free - ${c.cyan.underline(
         "https://youtu.be/N18czV5tj5o"
       )}`
     );
