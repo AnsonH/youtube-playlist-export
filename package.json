@@ -17,6 +17,10 @@
     "cli",
     "command line"
   ],
+  "homepage": "https://github.com/AnsonH/youtube-playlist-export#readme",
+  "bugs": {
+    "url": "https://github.com/AnsonH/youtube-playlist-export/issues"
+  },
   "license": "MIT",
   "author": {
     "name": "AnsonH",
