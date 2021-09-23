@@ -55,10 +55,193 @@ Commands:
   help [command]             display help for command
 ```
 
-## Development
+### Export Playlist
+
+Export a YouTube playlist given its playlist ID.
 
 ```
-$ npm install
+$ ytpl-export id <playlistId>
+```
+
+To find the playlist ID, head to the playlist homepage and copy the value of the `list` parameter in the URL (`https://www.youtube.com/playlist?list=[playlistId]`). For example, the [Google Search Stories](https://www.youtube.com/playlist?list=PLBCF2DAC6FFB574DE) playlist has a playlist ID of `PLBCF2DAC6FFB574DE`.
+
+![Demo of "id" command](./assets/demo-id.png)
+
+#### Flags
+
+- `-d`/`--default` - Skip all prompt questions and use the default configurations
+
+#### Exportable Items
+
+| Item                      | JSON/CSV Key Name |
+| ------------------------- | ----------------- |
+| Position in the playlist¹ | `position`        |
+| Title                     | `title`           |
+| Uploader                  | `uploader`        |
+| Uploader URL              | `uploaderUrl`     |
+| Description               | `description`     |
+| Video privacy             | `videoPrivacy`    |
+| Publish time (UTC)        | `publishTime`     |
+
+¹ Playlist position starts from 0
+
+#### Save Location
+
+You can specify the absolute path of a folder where the files will be saved to. The default value is `~/ytpl-export`. The folder will be created if it doesn't exist.
+
+Since it requires an **absolute** path, here are same examples:
+
+- ✔️ `C:\Users\User\Downloads` (Windows)
+- ✔️ `/usr/ytpl-export` (Mac/Linux)
+- ❌ `../ytpl-export`
+
+#### Example Output
+
+The app outputs the following when running `ytpl-export id PLBCF2DAC6FFB574DE`:
+
+<details>
+   <summary>JSON</summary>
+
+```json
+[
+  {
+    "position": 0,
+    "title": "Andrew Willis, Skatepark Engineer",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/GvgqDSnpRQM"
+  },
+  {
+    "position": 2,
+    "title": "Mark Lesek: A New/Old Prosthetic",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/V4DDt30Aat4"
+  },
+  {
+    "position": 4,
+    "title": "Mark Kempton: Neighbors In Need",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/XDgC4FMftpg"
+  },
+  {
+    "position": 5,
+    "title": "Zack Matere: Growing Knowledge",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/OE63BYWdqC4"
+  },
+  {
+    "position": 6,
+    "title": "Mitch Dobrowner: Epic Storms",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/RQbmXxU2dkg"
+  },
+  {
+    "position": 7,
+    "title": "The Tofino Riders: A 1,000 Year-Old-Wave",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/7nJdEXpvi1g"
+  },
+  {
+    "position": 8,
+    "title": "David Kennedy: Ancient Ruins",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/7hakGJU9xco"
+  },
+  {
+    "position": 9,
+    "title": "Caroline: Supernova 2008ha",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/x9-F6dbCIHw"
+  },
+  {
+    "position": 11,
+    "title": "Erik-Jan Bos: A Letter from an Old Friend",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/18TknKGC7tY"
+  },
+  {
+    "position": 12,
+    "title": "Cheryl and Morgan: Learning Independence",
+    "uploader": "Google Search Stories",
+    "url": "https://youtu.be/CyRQJBBVI7g"
+  }
+]
+```
+
+</details>
+
+<details>
+   <summary>CSV</summary>
+
+```csv
+"position","title","uploader","url"
+0,"Andrew Willis, Skatepark Engineer","Google Search Stories","https://youtu.be/GvgqDSnpRQM"
+2,"Mark Lesek: A New/Old Prosthetic","Google Search Stories","https://youtu.be/V4DDt30Aat4"
+4,"Mark Kempton: Neighbors In Need","Google Search Stories","https://youtu.be/XDgC4FMftpg"
+5,"Zack Matere: Growing Knowledge","Google Search Stories","https://youtu.be/OE63BYWdqC4"
+6,"Mitch Dobrowner: Epic Storms","Google Search Stories","https://youtu.be/RQbmXxU2dkg"
+7,"The Tofino Riders: A 1,000 Year-Old-Wave","Google Search Stories","https://youtu.be/7nJdEXpvi1g"
+8,"David Kennedy: Ancient Ruins","Google Search Stories","https://youtu.be/7hakGJU9xco"
+9,"Caroline: Supernova 2008ha","Google Search Stories","https://youtu.be/x9-F6dbCIHw"
+11,"Erik-Jan Bos: A Letter from an Old Friend","Google Search Stories","https://youtu.be/18TknKGC7tY"
+12,"Cheryl and Morgan: Learning Independence","Google Search Stories","https://youtu.be/CyRQJBBVI7g"
+```
+
+</details>
+
+### API Key
+
+Register, modify, or delete your YouTube API key.
+
+```
+$ ytpl-export key
+```
+
+First-time users for registering YouTube API key:
+
+![Demo of "key" command for first-time users](./assets/demo-key-1.png)
+
+After registering the API key:
+
+![Demo of "key" command after registered API key](./assets/demo-key-2.png)
+
+> ✔️ Your API key will only be stored in your local computer.
+
+### Configuration
+
+Configure preferences of this app.
+
+```
+$ ytpl-export config
+```
+
+![Demo of "config" command](./assets/demo-config.png)
+
+#### Flags
+
+- `-p`/`--path` - Show the path of the where the config file is stored
+- `-r`/`--reset` - Reset all configurations to default values (see below)
+
+#### Default Config
+
+- Items to export: Position in the playlist, Title, Uploader, URL
+- File extension: JSON
+- Save location: `~/ytpl-export`
+- Notify updates: Enabled
+- Skip private/deleted videos: True
+
+## Development
+
+### Set-Up
+
+```bash
+# 1. Install yarn if you haven't
+$ npm install -g yarn
+
+# 2. Install dependencies
+$ yarn
+
+# 3. Test to see if it runs properly
+$ node ./cli.js --help
 ```
 
 ## Limitations
