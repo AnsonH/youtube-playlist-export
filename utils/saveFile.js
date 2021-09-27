@@ -88,4 +88,4 @@ function formatName(name) {
   return output.replace(/ /g, "_"); // Replace empty space with `_`
 }
 
-export { saveFile as default };
+export { saveFile as default, createFolder, getExportName, formatName };
