@@ -244,6 +244,12 @@ $ yarn
 $ node ./cli.js --help
 ```
 
+### Test
+
+```
+$ npm run test
+```
+
 ## Limitations
 
 This app uses [YouTube API v3](https://developers.google.com/youtube/v3/) under the hood. However, due to limitations of the API, it **cannot** perform the following actions:
