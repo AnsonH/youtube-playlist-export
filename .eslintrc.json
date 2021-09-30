@@ -9,5 +9,8 @@
     "sourceType": "module"
   },
   "plugins": ["jest"],
-  "rules": {}
+  "rules": {
+    "jest/prefer-expect-assertions": ["warn", { "onlyFunctionsWithAsyncKeyword": true }],
+    "jest/no-hooks": "off"
+  }
 }
