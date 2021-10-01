@@ -38,7 +38,7 @@
     "format": "prettier --write **/*.{js,md}",
     "lint": "eslint **/*.js --fix",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -58,6 +58,7 @@
     "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.6",
     "@types/jest": "^27.0.2",
+    "axios-mock-adapter": "^1.20.0",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^24.4.2",
     "husky": "^7.0.2",
@@ -81,6 +82,11 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "setupFiles": [
+      "./tests/setupJest.js"
+    ]
   },
   "lint-staged": {
     "**/*.{js,md}": [
