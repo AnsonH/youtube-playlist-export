@@ -9,3 +9,14 @@ export const axiosErrorResponse = (status, reason) => ({
     },
   },
 });
+
+export const exportItemsDefault = {
+  position: true,
+  title: true,
+  uploader: true,
+  uploaderUrl: false,
+  url: true,
+  description: false,
+  videoPrivacy: false,
+  publishTime: false,
+};
