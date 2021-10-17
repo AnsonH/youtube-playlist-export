@@ -2,17 +2,19 @@ import c from "chalk";
 import fs from "fs";
 import { Parser } from "json2csv";
 import path from "path";
+import * as sf from "./saveFile.js";
 
 /**
  * Save playlist data into a file.
  * @param {object[]} playlistData
  * @param {{ fileExt: "csv"|"json", folderPath: string, playlistTitle: string }} options
+ * @return {boolean} Whether the operation is successful.
  */
 function saveFile(playlistData, options) {
   const { fileExt, folderPath, playlistTitle } = options;
 
-  if (!createFolder(folderPath)) {
-    return;
+  if (!sf.createFolder(folderPath)) {
+    return false;
   }
 
   let output;
@@ -26,16 +28,17 @@ function saveFile(playlistData, options) {
   }
 
   // Save file
-  const filePath = path.join(folderPath, getExportName(playlistTitle, fileExt));
+  const filePath = path.join(folderPath, sf.getExportName(playlistTitle, fileExt));
   try {
     fs.writeFileSync(filePath, output);
   } catch (error) {
     console.error(c.red(`✖ Error in saving file to ${filePath}`));
     console.error(c.red(error.message));
-    return;
+    return false;
   }
 
   console.log(`${c.green("✔ Successfully exported to: " + filePath)}`);
+  return true;
 }
 
 /**

@@ -1,5 +1,6 @@
 jest.mock("chalk", () => ({
   cyan: jest.fn(),
+  green: jest.fn(),
   red: jest.fn(),
   underline: jest.fn(),
 }));
