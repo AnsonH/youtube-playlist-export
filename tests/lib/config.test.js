@@ -45,7 +45,7 @@ describe("config class", () => {
 
   describe("getExportItemsDefaults", () => {
     it("should return an array of key names where key value equals to true", () => {
-      jest.spyOn(config.conf, "get").mockReturnValueOnce({ ...stubs.exportItemsDefault });
+      jest.spyOn(config.conf, "get").mockReturnValueOnce({ ...stubs.defaultConfig.exportItems });
 
       const result = config.getExportItemsDefaults();
       expect(result).toStrictEqual(["position", "title", "uploader", "url"]);
@@ -54,7 +54,7 @@ describe("config class", () => {
 
   describe("setExportItemsDefault", () => {
     it("should set export items correctly", () => {
-      jest.spyOn(config.conf, "get").mockReturnValueOnce({ ...stubs.exportItemsDefault });
+      jest.spyOn(config.conf, "get").mockReturnValueOnce({ ...stubs.defaultConfig.exportItems });
 
       const items = ["position", "publishTime"];
       config.setExportItemsDefaults(items);
