@@ -7,7 +7,7 @@
 
 ## About
 
-This app lets you download the metadata of each video (e.g. video title, URL, uploader, and etc.) from a public/unlisted YouTube playlist and saves it to a JSON or CSV file.
+This app lets you download the [metadata of each video](#exportable-items) (e.g. video title, URL, uploader, and etc.) from a public/unlisted YouTube playlist and saves it to a JSON or CSV file.
 
 > 🚨 This app does **not** download videos from a YouTube playlist. It only downloads **text-based metadata** of videos from a playlist.
 
@@ -246,8 +246,13 @@ $ node ./cli.js --help
 
 ### Test
 
-```
-$ npm run test
+All [Jest](https://jestjs.io/) tests are located in the `tests` folder. To run all tests:
+
+```bash
+$ yarn run test
+
+# Alternatively, run this to generate a coverage report
+$ yarn run test:coverage
 ```
 
 ## Limitations

@@ -38,6 +38,7 @@
     "format": "prettier --write **/*.{js,md}",
     "lint": "eslint **/*.js --fix",
     "prepare": "husky install",
+    "test": "jest",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
