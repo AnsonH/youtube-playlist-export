@@ -1,6 +1,6 @@
 import Conf from "conf";
 import * as stubs from "../stubs";
-import Config, { schema } from "../../lib/Config";
+import Config, { schema } from "../../source/lib/Config";
 
 jest.mock("conf");
 let config; // Instance of Config

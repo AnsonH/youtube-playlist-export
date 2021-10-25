@@ -27,8 +27,11 @@
     "email": "ansonheung2000@gmail.com",
     "url": "https://ansonheung.me"
   },
+  "files": [
+    "source"
+  ],
   "bin": {
-    "ytpl-export": "./cli.js"
+    "ytpl-export": "./source/cli.js"
   },
   "repository": {
     "type": "git",

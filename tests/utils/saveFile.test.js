@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Parser } from "json2csv";
 import path from "path";
-import saveFile, * as sf from "../../utils/saveFile";
+import saveFile, * as sf from "../../source/utils/saveFile";
 import * as stubs from "../stubs";
 
 jest.spyOn(path, "join").mockImplementation((...paths) => paths.join("/"));

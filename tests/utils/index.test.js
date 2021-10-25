@@ -1,4 +1,4 @@
-import { getValue } from "../../utils/index";
+import { getValue } from "../../source/utils";
 
 describe("getValue", () => {
   const testObj = { foo: 0, bar: { baz: [1, 2] } };

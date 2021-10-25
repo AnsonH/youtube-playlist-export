@@ -2,8 +2,8 @@ import axios from "axios";
 import chalk from "chalk";
 import MockAdapter from "axios-mock-adapter";
 import * as stubs from "../stubs";
-import * as api from "../../lib/api";
-import Config from "../../lib/Config";
+import * as api from "../../source/lib/api";
+import Config from "../../source/lib/Config";
 
 const axiosMock = new MockAdapter(axios);
 
