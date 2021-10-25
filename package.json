@@ -38,7 +38,7 @@
     "format": "prettier --write **/*.{js,md}",
     "lint": "eslint **/*.js --fix",
     "prepare": "husky install",
-    "test": "jest --coverage"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -93,7 +93,8 @@
       "prettier --write"
     ],
     "**/*.js": [
-      "eslint --fix"
+      "eslint --fix",
+      "jest --findRelatedTests"
     ]
   }
 }
