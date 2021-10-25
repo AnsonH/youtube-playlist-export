@@ -72,6 +72,14 @@ describe("config class", () => {
     });
   });
 
+  describe("path", () => {
+    it("should return config file's full path", () => {
+      const fakePath = "/foo/bar";
+      config.conf.path = fakePath;
+      expect(config.path).toBe(fakePath);
+    });
+  });
+
   describe("resetAll", () => {
     it("should reset all config to default", () => {
       config.resetAll();

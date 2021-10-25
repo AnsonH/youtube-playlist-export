@@ -12,5 +12,6 @@ describe("getValue", () => {
     expect(getValue(testObj, "hi")).toBeNull();
     expect(getValue(testObj, "foo.hi")).toBeNull();
     expect(getValue(testObj, "bar.hi")).toBeNull();
+    expect(getValue({}, "foo")).toBeNull();
   });
 });

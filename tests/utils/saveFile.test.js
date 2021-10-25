@@ -5,17 +5,14 @@ import saveFile, * as sf from "../../utils/saveFile";
 import * as stubs from "../stubs";
 
 jest.spyOn(path, "join").mockImplementation((...paths) => paths.join("/"));
+jest.spyOn(console, "log").mockImplementation((msg) => msg);
+jest.spyOn(console, "error").mockImplementation((msg) => msg);
 
 describe("saveFile", () => {
-  let consoleErrorMock, fsMock;
+  let fsMock;
   const fakePath = "/foo/bar";
 
-  beforeEach(() => {
-    consoleErrorMock = jest.spyOn(console, "error").mockImplementation((msg) => msg);
-  });
-
   afterEach(() => {
-    consoleErrorMock.mockClear();
     fsMock?.mockClear();
   });
 
