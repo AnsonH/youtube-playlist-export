@@ -5,8 +5,6 @@ import saveFile, * as sf from "../../source/utils/saveFile";
 import * as stubs from "../stubs";
 
 jest.spyOn(path, "join").mockImplementation((...paths) => paths.join("/"));
-jest.spyOn(console, "log").mockImplementation((msg) => msg);
-jest.spyOn(console, "error").mockImplementation((msg) => msg);
 
 describe("saveFile", () => {
   let fsMock;

@@ -2,6 +2,7 @@ import c from "chalk";
 import inquirer from "inquirer";
 import { validateApiKey } from "../lib/api.js";
 import Config from "../lib/Config.js";
+import * as key from "./key.js";
 
 async function setApiKey() {
   const config = new Config();
@@ -44,7 +45,7 @@ const keyActionHandler = async () => {
 
     switch (input.keyAction) {
       case "editKey":
-        setApiKey();
+        key.setApiKey();
         break;
       case "removeKey":
         config.set("apiKey", "");
@@ -56,9 +57,9 @@ const keyActionHandler = async () => {
   } else {
     console.log("You haven't entered your YouTube API key!");
     // prettier-ignore
-    console.log(`Watch this 3 min. tutorial on how to get a YouTube API key (v3) for free - ${c.cyan.underline("https://youtu.be/N18czV5tj5o")}`);
-    setApiKey();
+    console.log(`Watch this 3 min. tutorial on how to get a YouTube API key (v3) for free - ${c.cyan("https://youtu.be/N18czV5tj5o")}`);
+    key.setApiKey();
   }
 };
 
-export default keyActionHandler;
+export { setApiKey, keyActionHandler as default };
