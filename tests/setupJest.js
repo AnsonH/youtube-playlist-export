@@ -8,7 +8,6 @@ jest.mock("chalk", () => ({
 }));
 jest.mock("inquirer");
 jest.mock("progress");
-jest.mock("update-notifier");
 
 // Fix all console.XXX is undefined errors
 jest.spyOn(console, "log").mockImplementation((msg) => msg);

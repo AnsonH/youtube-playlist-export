@@ -2,6 +2,7 @@ import c from "chalk";
 import inquirer from "inquirer";
 import Config from "../lib/Config.js";
 import { exportOptionsPrompts } from "../lib/prompts.js";
+import * as cf from "./config.js";
 
 /**
  * Action handler for `ytpl-export config`
@@ -16,7 +17,7 @@ const configActionHandler = async (options) => {
   }
 
   if (options.reset) {
-    resetConfig(config);
+    cf.resetConfig();
     return;
   }
 
@@ -42,15 +43,15 @@ const configActionHandler = async (options) => {
 
     switch (input.configItem) {
       case "exportOptions":
-        await editExportOptions();
+        await cf.editExportOptions();
         console.log(c.green("✔ Saved default export options.\n"));
         break;
       case "notifyUpdate":
-        await editNotifyUpdate();
+        await cf.editNotifyUpdate();
         console.log(c.green("✔ Saved update notification preference.\n"));
         break;
       case "skipPrivateOrDeleted":
-        await editSkipPrivateOrDeleted();
+        await cf.editSkipPrivateOrDeleted();
         console.log(c.green("✔ Saved skipping private or deleted videos.\n"));
         break;
       case "exit":
@@ -128,4 +129,10 @@ async function resetConfig() {
   }
 }
 
-export default configActionHandler;
+export {
+  configActionHandler as default,
+  editExportOptions,
+  editNotifyUpdate,
+  editSkipPrivateOrDeleted,
+  resetConfig,
+};
