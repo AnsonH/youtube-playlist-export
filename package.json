@@ -1,6 +1,6 @@
 {
   "name": "youtube-playlist-export",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A command line app for exporting video data from a YouTube playlist to a JSON/CSV file",
   "type": "module",
   "engines": {
