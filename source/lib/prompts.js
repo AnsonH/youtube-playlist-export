@@ -1,6 +1,17 @@
 import c from "chalk";
 import isAbsolute from "is-absolute";
 import Config from "./Config.js";
+import * as prompts from "./prompts.js";
+
+export const validateExportItems = (input) => {
+  if (input.length === 0) {
+    return c.red("Select at least 1 item to export");
+  }
+  return true;
+};
+
+export const validateFilePath = (input) =>
+  isAbsolute(input) ? true : c.red("Please enter a valid absolute path!");
 
 /**
  * Prompt questions for exporting playlist data. Used in `ytpl-export id <playlistId>` command
@@ -25,12 +36,7 @@ export const exportOptionsPrompts = () => {
         { name: "8. Publish time (UTC)", value: "publishTime" },
       ],
       default: config.getExportItemsDefaults(),
-      validate(input) {
-        if (input.length === 0) {
-          return c.red("Select at least 1 item to export");
-        }
-        return true;
-      },
+      validate: prompts.validateExportItems,
     },
     {
       type: "list",
@@ -48,9 +54,7 @@ export const exportOptionsPrompts = () => {
       // prettier-ignore
       message: `Input an ${c.underline("absolute")} path of a ${c.underline("folder")} where the data will be saved to:`,
       default: config.get("folderPath"),
-      validate(input) {
-        return isAbsolute(input) ? true : c.red("Please enter a valid absolute path!");
-      },
+      validate: prompts.validateFilePath,
     },
   ];
 };

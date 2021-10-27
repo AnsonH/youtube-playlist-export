@@ -4,23 +4,22 @@ import keyActionHandler, * as key from "../../source/commands/key";
 
 jest.mock("../../source/lib/Config");
 
-describe("key commands", () => {
-  let configSetMock, inquirerMock;
+describe("key command", () => {
+  let configSetMock;
 
   beforeEach(() => {
     configSetMock = jest.spyOn(Config.prototype, "set");
-    inquirerMock = jest.spyOn(inquirer, "prompt");
   });
 
   afterEach(() => {
     configSetMock.mockClear();
-    inquirerMock.mockClear();
+    inquirer.prompt.mockClear();
   });
 
   describe("setApiKey", () => {
     it("should set config's apiKey to trimmed inputted key", async () => {
       expect.assertions(1);
-      inquirerMock.mockResolvedValue({ apiKey: "   lorem  " });
+      inquirer.prompt.mockResolvedValue({ apiKey: "   lorem  " });
 
       await key.setApiKey();
       expect(configSetMock).toHaveBeenCalledWith("apiKey", "lorem");
@@ -50,7 +49,7 @@ describe("key commands", () => {
 
     it("should run setApiKey if user chooses to edit key", async () => {
       expect.assertions(1);
-      inquirerMock.mockResolvedValue({ keyAction: "editKey" });
+      inquirer.prompt.mockResolvedValue({ keyAction: "editKey" });
 
       await keyActionHandler();
       expect(setApiKeyMock).toHaveBeenCalledWith();
@@ -58,7 +57,7 @@ describe("key commands", () => {
 
     it("should set API key to empty string if user chooses to delete key", async () => {
       expect.assertions(1);
-      inquirerMock.mockResolvedValue({ keyAction: "removeKey" });
+      inquirer.prompt.mockResolvedValue({ keyAction: "removeKey" });
 
       await keyActionHandler();
       expect(configSetMock).toHaveBeenCalledWith("apiKey", "");
@@ -66,7 +65,7 @@ describe("key commands", () => {
 
     it("should do nothing if user chooses to exit", async () => {
       expect.assertions(2);
-      inquirerMock.mockResolvedValue({ keyAction: "exit" });
+      inquirer.prompt.mockResolvedValue({ keyAction: "exit" });
 
       await keyActionHandler();
       expect(configSetMock).not.toHaveBeenCalled();
