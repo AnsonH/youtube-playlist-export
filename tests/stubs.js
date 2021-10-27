@@ -33,6 +33,11 @@ export const playlist = {
   playlistId: "PL12345678",
   title: "My Fake Playlist",
   numOfVideos: 3,
+  // Mock response for `getPlaylistMetadata`
+  playlistMetadata: {
+    title: "My Fake Playlist",
+    numOfVideos: 3,
+  },
   fileNameJson: "2021-10-15-My_Fake_Playlist.json",
   fileNameCsv: "2021-10-15-My_Fake_Playlist.csv",
   // Mock Axios data response for `/playlistItems`

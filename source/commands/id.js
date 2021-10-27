@@ -5,11 +5,13 @@ import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
 import Config from "../lib/Config.js";
 import { exportOptionsPrompts } from "../lib/prompts.js";
 import saveFile from "../utils/saveFile.js";
+import * as id from "./id.js";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`
  * @param {string} playlistId   Command argument - ID of playlist to be exported
  * @param {{default: boolean}} options  Command options
+ * @return {Promise<boolean>} `true` if playlist is exported successfully, or `false` otherwise
  */
 const idActionHandler = async (playlistId, options) => {
   const config = new Config();
@@ -19,14 +21,14 @@ const idActionHandler = async (playlistId, options) => {
     // prettier-ignore
     console.log(c.yellow("WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."));
     console.log(c.yellow("Please try another playlist."));
-    return;
+    return false;
   }
 
   // Check if API key exists
   if (!config.get("apiKey")) {
     console.log(`${c.yellow("WARNING:")} You haven't set your YouTube API key!`);
     console.log(`Run ${c.cyan("`ytpl-export key`")} to set the API key.`);
-    return;
+    return false;
   }
 
   // Fetch playlist metadata
@@ -38,8 +40,8 @@ const idActionHandler = async (playlistId, options) => {
     metaSpinner.succeed("Fetched playlist metadata");
   } catch (error) {
     metaSpinner.fail("Failed in fetching playlist metadata");
-    handleApiError(error);
-    return;
+    id.handleApiError(error);
+    return false;
   }
 
   console.log(`▶ Playlist Title: ${c.blueBright(metadata.title)}`);
@@ -50,7 +52,7 @@ const idActionHandler = async (playlistId, options) => {
   // Check if playlist is empty
   if (metadata.numOfVideos === 0) {
     console.log(c.green("This playlist is empty and there are no video data to export."));
-    return;
+    return false;
   }
 
   let playlistData;
@@ -60,30 +62,30 @@ const idActionHandler = async (playlistId, options) => {
     playlistTitle: metadata.title,
   };
 
-  // User prompt
-  if (options.default) {
-    // Skip all prompts for `--default` option
-    const exportItems = config.getExportItemsDefaults();
-    playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfVideos);
-  } else {
-    const input = await inquirer.prompt(exportOptionsPrompts());
-    console.log("");
-
-    saveFileOptions.fileExt = input.fileExt;
-    saveFileOptions.folderPath = input.folderPath;
-
-    // Fetch playlist data
-    try {
-      playlistData = await getPlaylistData(playlistId, input.exportItems, metadata.numOfVideos);
-    } catch (error) {
+  try {
+    if (options.default) {
+      // Skip all prompts for `--default` option
+      const exportItems = config.getExportItemsDefaults();
+      playlistData = await getPlaylistData(playlistId, exportItems, metadata.numOfVideos);
+    } else {
+      const input = await inquirer.prompt(exportOptionsPrompts());
       console.log("");
-      handleApiError(error);
-      return;
+
+      saveFileOptions.fileExt = input.fileExt;
+      saveFileOptions.folderPath = input.folderPath;
+
+      // Fetch playlist data
+      playlistData = await getPlaylistData(playlistId, input.exportItems, metadata.numOfVideos);
     }
+  } catch (error) {
+    console.log("");
+    id.handleApiError(error);
+    return false;
   }
 
   console.log("");
   saveFile(playlistData, saveFileOptions);
+  return true;
 };
 
 /**
@@ -110,4 +112,4 @@ function handleApiError(error) {
   }
 }
 
-export default idActionHandler;
+export { idActionHandler as default, handleApiError };
