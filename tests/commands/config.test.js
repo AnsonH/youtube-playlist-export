@@ -4,14 +4,9 @@ import Config from "../../source/lib/Config";
 import configActionHandler, * as cf from "../../source/commands/config";
 
 jest.mock("../../source/lib/Config");
+const configSetMock = Config.prototype.set;
 
 describe("config command", () => {
-  let configSetMock;
-
-  beforeEach(() => {
-    configSetMock = jest.spyOn(Config.prototype, "set");
-  });
-
   afterEach(() => {
     configSetMock.mockClear();
     inquirer.prompt.mockClear();
@@ -130,13 +125,7 @@ describe("config command", () => {
   });
 
   describe("resetConfig", () => {
-    let configResetAllMock;
-
-    beforeEach(() => {
-      configResetAllMock = jest
-        .spyOn(Config.prototype, "resetAll")
-        .mockImplementation(() => undefined);
-    });
+    const configResetAllMock = Config.prototype.resetAll;
 
     afterEach(() => {
       configResetAllMock.mockClear();

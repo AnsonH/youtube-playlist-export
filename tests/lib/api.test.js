@@ -7,23 +7,12 @@ import Config from "../../source/lib/Config";
 
 const axiosMock = new MockAdapter(axios);
 
+jest.mock("../../source/lib/Config");
+
 describe("api", () => {
-  let configGetMock;
-
-  beforeEach(() => {
-    configGetMock = jest.spyOn(Config.prototype, "get").mockImplementation((key) => {
-      switch (key) {
-        case "apiKey":
-          return "fakeApiKey";
-        default:
-          return "";
-      }
-    });
-  });
-
   afterEach(() => {
     axiosMock.reset();
-    configGetMock.mockRestore();
+    Config.prototype.get.mockClear();
   });
 
   describe("validateApiKey", () => {
@@ -114,9 +103,9 @@ describe("api", () => {
         .onGet(`${api.API_BASE_URL}/playlistItems`)
         .reply(200, stubs.playlist.playlistItemsData);
 
-      configGetMock = jest.spyOn(Config.prototype, "get").mockImplementation((key) => {
-        return key === "skipPrivateOrDeleted" ? true : "";
-      });
+      Config.prototype.get.mockImplementation((key) =>
+        key === "skipPrivateOrDeleted" ? true : ""
+      );
 
       const data = await api.getPlaylistData(
         "PL12345678",
@@ -133,9 +122,9 @@ describe("api", () => {
         .onGet(`${api.API_BASE_URL}/playlistItems`)
         .reply(200, stubs.playlist.playlistItemsData);
 
-      configGetMock = jest.spyOn(Config.prototype, "get").mockImplementation((key) => {
-        return key === "skipPrivateOrDeleted" ? false : "";
-      });
+      Config.prototype.get.mockImplementation((key) =>
+        key === "skipPrivateOrDeleted" ? false : ""
+      );
 
       const data = await api.getPlaylistData(
         "PL12345678",

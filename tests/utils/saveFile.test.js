@@ -4,30 +4,25 @@ import path from "path";
 import saveFile, * as sf from "../../source/utils/saveFile";
 import * as stubs from "../stubs";
 
+jest.mock("fs");
 jest.spyOn(path, "join").mockImplementation((...paths) => paths.join("/"));
+jest.spyOn(JSON, "stringify").mockImplementation((obj) => obj);
+
+const fakePath = "/foo/bar";
 
 describe("saveFile", () => {
-  let fsMock;
-  const fakePath = "/foo/bar";
-
-  afterEach(() => {
-    fsMock?.mockClear();
-  });
-
   describe("saveFile", () => {
-    let createFolderMock, getExportNameMock, jsonMock;
+    let createFolderMock, getExportNameMock;
 
     beforeEach(() => {
-      fsMock = jest.spyOn(fs, "writeFileSync").mockImplementation(() => undefined);
       createFolderMock = jest.spyOn(sf, "createFolder").mockReturnValue(true);
       getExportNameMock = jest.spyOn(sf, "getExportName");
-      jsonMock = jest.spyOn(JSON, "stringify").mockImplementation((obj) => obj);
     });
 
     afterEach(() => {
+      fs.writeFileSync.mockClear();
       createFolderMock.mockRestore();
       getExportNameMock.mockRestore();
-      jsonMock.mockRestore();
     });
 
     it("should return false immediately if it fails to create folder", () => {
@@ -51,7 +46,8 @@ describe("saveFile", () => {
       });
 
       const fakeFilePath = `${fakePath}/${stubs.playlist.fileNameJson}`;
-      expect(fsMock).toHaveBeenCalledWith(fakeFilePath, stubs.playlist.fullJsonOutput);
+      // JSON.stringify is mocked to return the original object
+      expect(fs.writeFileSync).toHaveBeenCalledWith(fakeFilePath, stubs.playlist.fullJsonOutput);
       expect(status).toBe(true);
     });
 
@@ -69,14 +65,14 @@ describe("saveFile", () => {
 
       const fakeFilePath = `${fakePath}/${stubs.playlist.fileNameCsv}`;
       expect(csvParserMock).toHaveBeenCalledWith(stubs.playlist.fullJsonOutput);
-      expect(fsMock).toHaveBeenCalledWith(fakeFilePath, "fake csv output");
+      expect(fs.writeFileSync).toHaveBeenCalledWith(fakeFilePath, "fake csv output");
       expect(status).toBe(true);
 
       csvParserMock.mockRestore();
     });
 
     it("should return false when it fails to save file", () => {
-      fsMock = jest.spyOn(fs, "writeFileSync").mockImplementation(() => {
+      fs.writeFileSync.mockImplementationOnce(() => {
         throw new Error("Error");
       });
 
@@ -91,28 +87,32 @@ describe("saveFile", () => {
   });
 
   describe("createFolder", () => {
+    afterEach(() => {
+      fs.existsSync.mockClear();
+      fs.mkdirSync.mockClear();
+    });
+
     it("should return true immediately if path already exists", () => {
-      fsMock = jest.spyOn(fs, "existsSync").mockReturnValue(true);
+      fs.existsSync.mockReturnValueOnce(true);
       expect(sf.createFolder(fakePath)).toBe(true);
     });
 
     it("should create directory and return true if path doesn't exist", () => {
-      jest.spyOn(fs, "existsSync").mockReturnValue(false);
-      fsMock = jest.spyOn(fs, "mkdirSync");
+      fs.existsSync.mockReturnValueOnce(false);
 
       const status = sf.createFolder(fakePath);
-      expect(fsMock).toHaveBeenCalledWith(fakePath, { recursive: true });
+      expect(fs.mkdirSync).toHaveBeenCalledWith(fakePath, { recursive: true });
       expect(status).toBe(true);
     });
 
     it("should return false if it fails to create folder", () => {
-      jest.spyOn(fs, "existsSync").mockReturnValue(false);
-      fsMock = jest.spyOn(fs, "mkdirSync").mockImplementation(() => {
+      fs.existsSync.mockReturnValueOnce(false);
+      fs.mkdirSync.mockImplementationOnce(() => {
         throw new Error("Error");
       });
 
       const status = sf.createFolder(fakePath);
-      expect(fsMock).toHaveBeenCalledWith(fakePath, { recursive: true });
+      expect(fs.mkdirSync).toHaveBeenCalledWith(fakePath, { recursive: true });
       expect(status).toBe(false);
     });
   });

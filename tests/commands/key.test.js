@@ -5,14 +5,8 @@ import keyActionHandler, * as key from "../../source/commands/key";
 jest.mock("../../source/lib/Config");
 
 describe("key command", () => {
-  let configSetMock;
-
-  beforeEach(() => {
-    configSetMock = jest.spyOn(Config.prototype, "set");
-  });
-
   afterEach(() => {
-    configSetMock.mockClear();
+    Config.prototype.set.mockClear();
     inquirer.prompt.mockClear();
   });
 
@@ -22,15 +16,15 @@ describe("key command", () => {
       inquirer.prompt.mockResolvedValue({ apiKey: "   lorem  " });
 
       await key.setApiKey();
-      expect(configSetMock).toHaveBeenCalledWith("apiKey", "lorem");
+      expect(Config.prototype.set).toHaveBeenCalledWith("apiKey", "lorem");
     });
   });
 
   describe("keyActionHandler", () => {
-    let configGetMock, setApiKeyMock;
+    let setApiKeyMock;
+    const configGetMock = Config.prototype.get.mockReturnValue("fakeApiKey");
 
     beforeEach(() => {
-      configGetMock = jest.spyOn(Config.prototype, "get").mockReturnValue("fakeApiKey");
       setApiKeyMock = jest.spyOn(key, "setApiKey").mockImplementation(() => undefined);
     });
 
@@ -41,7 +35,7 @@ describe("key command", () => {
 
     it("should run setApiKey if API key is missing", async () => {
       expect.assertions(1);
-      configGetMock.mockReturnValue("");
+      configGetMock.mockReturnValueOnce("");
 
       await keyActionHandler();
       expect(setApiKeyMock).toHaveBeenCalledWith();
@@ -60,7 +54,7 @@ describe("key command", () => {
       inquirer.prompt.mockResolvedValue({ keyAction: "removeKey" });
 
       await keyActionHandler();
-      expect(configSetMock).toHaveBeenCalledWith("apiKey", "");
+      expect(Config.prototype.set).toHaveBeenCalledWith("apiKey", "");
     });
 
     it("should do nothing if user chooses to exit", async () => {
@@ -68,7 +62,7 @@ describe("key command", () => {
       inquirer.prompt.mockResolvedValue({ keyAction: "exit" });
 
       await keyActionHandler();
-      expect(configSetMock).not.toHaveBeenCalled();
+      expect(Config.prototype.set).not.toHaveBeenCalled();
       expect(setApiKeyMock).not.toHaveBeenCalled();
     });
   });
