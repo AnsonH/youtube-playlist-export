@@ -2,6 +2,7 @@
 
 import c from "chalk";
 import { program } from "commander";
+import { getInstalledPath } from "get-installed-path";
 import { readPackage } from "read-pkg";
 import updateNotifier from "update-notifier";
 import idActionHandler from "./commands/id.js";
@@ -9,7 +10,8 @@ import keyActionHandler from "./commands/key.js";
 import configActionHandler from "./commands/config.js";
 
 (async () => {
-  const pkg = await readPackage();
+  const installedPath = await getInstalledPath("youtube-playlist-export");
+  const pkg = await readPackage({ cwd: installedPath });
 
   updateNotifier({ pkg }).notify();
 
