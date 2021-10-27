@@ -20,7 +20,6 @@ describe("saveFile", () => {
     });
 
     afterEach(() => {
-      fs.writeFileSync.mockClear();
       createFolderMock.mockRestore();
       getExportNameMock.mockRestore();
     });
@@ -87,11 +86,6 @@ describe("saveFile", () => {
   });
 
   describe("createFolder", () => {
-    afterEach(() => {
-      fs.existsSync.mockClear();
-      fs.mkdirSync.mockClear();
-    });
-
     it("should return true immediately if path already exists", () => {
       fs.existsSync.mockReturnValueOnce(true);
       expect(sf.createFolder(fakePath)).toBe(true);

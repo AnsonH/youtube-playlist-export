@@ -63,7 +63,6 @@ describe("id command", () => {
         );
         expect(c.yellow.mock.calls[1][0]).toBe("Please try another playlist.");
         expect(status).toBe(false);
-        c.yellow.mockClear();
       });
 
       it("should resolve to false if API Key is missing", async () => {
@@ -74,9 +73,6 @@ describe("id command", () => {
         expect(c.yellow).toHaveBeenCalledWith("WARNING:");
         expect(c.cyan).toHaveBeenCalledWith("`ytpl-export key`");
         expect(status).toBe(false);
-
-        c.yellow.mockClear();
-        c.cyan.mockClear();
       });
 
       it("should resolve to false if failed to fetch playlist metadata", async () => {
@@ -102,7 +98,6 @@ describe("id command", () => {
           "This playlist is empty and there are no video data to export."
         );
         expect(status).toBe(false);
-        c.green.mockClear();
       });
 
       it("should resolve to false if failed to fetch playlist data and --default is true", async () => {
@@ -135,10 +130,6 @@ describe("id command", () => {
         api.getPlaylistMetadata.mockResolvedValueOnce(stubs.playlist.playlistMetadata);
         Config.prototype.getExportItemsDefaults.mockReturnValueOnce(stubs.exportItemsAll);
         api.getPlaylistData.mockResolvedValueOnce(stubs.playlist.fullJsonOutput);
-      });
-
-      afterEach(() => {
-        jest.clearAllMocks();
       });
 
       it("should skip all prompts if --default flag is true", async () => {
@@ -174,10 +165,6 @@ describe("id command", () => {
   });
 
   describe("handleApiError", () => {
-    afterEach(() => {
-      c.red.mockClear();
-    });
-
     it("should handle quota exceeded error", () => {
       id.handleApiError(new Error(errorQuotaExceeded));
       expect(c.red.mock.calls[0][0]).toBe(

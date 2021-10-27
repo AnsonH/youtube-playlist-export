@@ -5,11 +5,6 @@ import keyActionHandler, * as key from "../../source/commands/key";
 jest.mock("../../source/lib/Config");
 
 describe("key command", () => {
-  afterEach(() => {
-    Config.prototype.set.mockClear();
-    inquirer.prompt.mockClear();
-  });
-
   describe("setApiKey", () => {
     it("should set config's apiKey to trimmed inputted key", async () => {
       expect.assertions(1);
@@ -24,12 +19,11 @@ describe("key command", () => {
     let setApiKeyMock;
     const configGetMock = Config.prototype.get.mockReturnValue("fakeApiKey");
 
-    beforeEach(() => {
+    beforeAll(() => {
       setApiKeyMock = jest.spyOn(key, "setApiKey").mockImplementation(() => undefined);
     });
 
-    afterEach(() => {
-      configGetMock.mockClear();
+    afterAll(() => {
       setApiKeyMock.mockRestore();
     });
 

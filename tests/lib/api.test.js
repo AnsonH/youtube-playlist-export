@@ -12,7 +12,6 @@ jest.mock("../../source/lib/Config");
 describe("api", () => {
   afterEach(() => {
     axiosMock.reset();
-    Config.prototype.get.mockClear();
   });
 
   describe("validateApiKey", () => {

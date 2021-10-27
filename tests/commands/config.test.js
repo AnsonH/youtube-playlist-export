@@ -7,15 +7,10 @@ jest.mock("../../source/lib/Config");
 const configSetMock = Config.prototype.set;
 
 describe("config command", () => {
-  afterEach(() => {
-    configSetMock.mockClear();
-    inquirer.prompt.mockClear();
-  });
-
   describe("configActionHandler", () => {
     let editExportOptionsMock, editNotifyUpdateMock, skipPrivateOrDeletedMock;
 
-    beforeEach(() => {
+    beforeAll(() => {
       editExportOptionsMock = jest.spyOn(cf, "editExportOptions").mockImplementation(() => null);
       editNotifyUpdateMock = jest.spyOn(cf, "editNotifyUpdate").mockImplementation(() => null);
       skipPrivateOrDeletedMock = jest
@@ -23,7 +18,7 @@ describe("config command", () => {
         .mockImplementation(() => null);
     });
 
-    afterEach(() => {
+    afterAll(() => {
       editExportOptionsMock.mockRestore();
       editNotifyUpdateMock.mockRestore();
       skipPrivateOrDeletedMock.mockRestore();
@@ -38,7 +33,6 @@ describe("config command", () => {
       expect(editExportOptionsMock).not.toHaveBeenCalled();
       expect(editNotifyUpdateMock).not.toHaveBeenCalled();
       expect(skipPrivateOrDeletedMock).not.toHaveBeenCalled();
-      consoleLogMock.mockClear();
     });
 
     it("should reset config and return if specified so", async () => {
@@ -95,7 +89,6 @@ describe("config command", () => {
       expect(configSetMock.mock.calls[0][1]).toBe(promptResponse.fileExt);
       expect(configSetMock.mock.calls[1][0]).toBe("folderPath");
       expect(configSetMock.mock.calls[1][1]).toBe(promptResponse.folderPath);
-      configSetDefaultsMock.mockClear();
     });
   });
 
@@ -126,10 +119,6 @@ describe("config command", () => {
 
   describe("resetConfig", () => {
     const configResetAllMock = Config.prototype.resetAll;
-
-    afterEach(() => {
-      configResetAllMock.mockClear();
-    });
 
     it("should reset all config if specified yes", async () => {
       expect.assertions(1);

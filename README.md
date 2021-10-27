@@ -246,7 +246,7 @@ $ node ./cli.js --help
 
 ### Test
 
-All [Jest](https://jestjs.io/) tests are located in the `tests` folder. To run all tests:
+All tests are written in [Jest](https://jestjs.io/) and they are located in the `tests` folder. To run all tests:
 
 ```bash
 $ yarn run test
@@ -254,6 +254,8 @@ $ yarn run test
 # Alternatively, run this to generate a coverage report
 $ yarn run test:coverage
 ```
+
+Note that [`clearMocks`](https://jestjs.io/docs/configuration#clearmocks-boolean) is set to `true`, which Jest will automatically clear mock calls and instances before every test.
 
 ## Limitations
 
