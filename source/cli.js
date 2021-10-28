@@ -2,17 +2,13 @@
 
 import c from "chalk";
 import { program } from "commander";
-import { getInstalledPath } from "get-installed-path";
-import { readPackage } from "read-pkg";
+import * as pkg from "../package.json";
 import updateNotifier from "update-notifier";
 import idActionHandler from "./commands/id.js";
 import keyActionHandler from "./commands/key.js";
 import configActionHandler from "./commands/config.js";
 
 (async () => {
-  const installedPath = await getInstalledPath("youtube-playlist-export");
-  const pkg = await readPackage({ cwd: installedPath });
-
   updateNotifier({ pkg }).notify();
 
   program.name("ytpl-export").version(pkg.version);

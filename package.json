@@ -2,7 +2,6 @@
   "name": "youtube-playlist-export",
   "version": "1.0.3",
   "description": "A command line app for exporting video data from a YouTube playlist to a JSON/CSV file",
-  "type": "module",
   "engines": {
     "node": ">=12"
   },
@@ -28,16 +27,18 @@
     "url": "https://ansonheung.me"
   },
   "files": [
-    "source"
+    "dist"
   ],
   "bin": {
-    "ytpl-export": "./source/cli.js"
+    "ytpl-export": "./dist/cli.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/AnsonH/youtube-playlist-export.git"
   },
   "scripts": {
+    "build": "babel source -d dist",
+    "clean": "rm -rf dist",
     "format": "prettier --write **/*.{js,md}",
     "lint": "eslint **/*.js --fix",
     "prepare": "husky install",
@@ -49,13 +50,11 @@
     "chalk": "^4.1.2",
     "commander": "^8.1.0",
     "conf": "^10.0.2",
-    "get-installed-path": "^4.0.8",
     "inquirer": "^8.1.2",
     "is-absolute": "^1.0.0",
     "json2csv": "^5.0.6",
-    "ora": "^6.0.0",
+    "ora": "5.4.1",
     "progress": "^2.0.3",
-    "read-pkg": "^7.0.0",
     "update-notifier": "^5.1.0"
   },
   "devDependencies": {
@@ -72,6 +71,7 @@
     "prettier": "^2.3.2"
   },
   "babel": {
+    "comments": false,
     "presets": [
       [
         "@babel/preset-env",

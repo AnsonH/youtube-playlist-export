@@ -13,11 +13,8 @@ lerna-debug.log*
 coverage
 *.lcov
 
-# Dependency directories
-node_modules/
-
-# Optional eslint cache
+# Other
+node_modules
+dist
 .eslintcache
-
-# VS Code settings
 .vscode
