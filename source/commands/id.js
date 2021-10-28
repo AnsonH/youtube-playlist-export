@@ -1,11 +1,11 @@
 import c from "chalk";
 import inquirer from "inquirer";
 import ora from "ora";
-import { getPlaylistData, getPlaylistMetadata } from "../lib/api.js";
-import Config from "../lib/Config.js";
-import { exportOptionsPrompts } from "../lib/prompts.js";
-import saveFile from "../utils/saveFile.js";
-import * as id from "./id.js";
+import { getPlaylistData, getPlaylistMetadata } from "../lib/api";
+import Config from "../lib/Config";
+import { exportOptionsPrompts } from "../lib/prompts";
+import saveFile from "../utils/saveFile";
+import * as id from "./id";
 
 /**
  * Action handler for `ytpl-export id [options] <playlistId>`

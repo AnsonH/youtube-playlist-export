@@ -2,7 +2,7 @@ import c from "chalk";
 import fs from "fs";
 import { Parser } from "json2csv";
 import path from "path";
-import * as sf from "./saveFile.js";
+import * as sf from "./saveFile";
 
 /**
  * Save playlist data into a file.

@@ -240,8 +240,11 @@ $ npm install -g yarn
 # 2. Install dependencies
 $ yarn
 
-# 3. Test to see if it runs properly
-$ node ./cli.js --help
+# 3. Build from source code
+$ yarn run build
+
+# 4. Confirm that it works
+$ node dist/cli.js --help
 ```
 
 ### Test

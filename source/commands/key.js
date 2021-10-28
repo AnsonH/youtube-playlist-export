@@ -1,8 +1,8 @@
 import c from "chalk";
 import inquirer from "inquirer";
-import { validateApiKey } from "../lib/api.js";
-import Config from "../lib/Config.js";
-import * as key from "./key.js";
+import { validateApiKey } from "../lib/api";
+import Config from "../lib/Config";
+import * as key from "./key";
 
 async function setApiKey() {
   const config = new Config();

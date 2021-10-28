@@ -1,9 +1,9 @@
 import axios from "axios";
 import c from "chalk";
 import ProgressBar from "progress";
-import Config from "./Config.js";
-import { getValue } from "../utils/index.js";
-import * as api from "./api.js";
+import * as api from "./api";
+import Config from "./Config";
+import { getValue } from "../utils/index";
 
 export const API_BASE_URL = "https://www.googleapis.com/youtube/v3";
 const MAX_RESULTS = 50; // Max. no. of items returned in one call (50 is the max. value allowed)

@@ -1,8 +1,8 @@
 import c from "chalk";
 import inquirer from "inquirer";
-import Config from "../lib/Config.js";
-import { exportOptionsPrompts } from "../lib/prompts.js";
-import * as cf from "./config.js";
+import Config from "../lib/Config";
+import { exportOptionsPrompts } from "../lib/prompts";
+import * as cf from "./config";
 
 /**
  * Action handler for `ytpl-export config`

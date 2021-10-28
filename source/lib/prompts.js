@@ -1,7 +1,7 @@
 import c from "chalk";
 import isAbsolute from "is-absolute";
-import Config from "./Config.js";
-import * as prompts from "./prompts.js";
+import Config from "./Config";
+import * as prompts from "./prompts";
 
 export const validateExportItems = (input) => {
   if (input.length === 0) {
