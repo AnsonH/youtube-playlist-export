@@ -37,6 +37,7 @@
     "url": "https://github.com/AnsonH/youtube-playlist-export.git"
   },
   "scripts": {
+    "start": "babel source -d dist --watch",
     "build": "babel source -d dist",
     "clean": "rm -rf dist",
     "format": "prettier --write **/*.{js,md}",
@@ -99,8 +100,7 @@
       "prettier --write"
     ],
     "**/*.js": [
-      "eslint --fix",
-      "jest --findRelatedTests"
+      "eslint --fix"
     ]
   }
 }

@@ -240,11 +240,14 @@ $ npm install -g yarn
 # 2. Install dependencies
 $ yarn
 
-# 3. Build from source code
-$ yarn run build
+# 3. Start the development server
+$ yarn start
+```
 
-# 4. Confirm that it works
-$ node dist/cli.js --help
+To run the app, open a new Terminal and run:
+
+```bash
+$ node dist/cli.js
 ```
 
 ### Test
@@ -252,10 +255,10 @@ $ node dist/cli.js --help
 All tests are written in [Jest](https://jestjs.io/) and they are located in the `tests` folder. To run all tests:
 
 ```bash
-$ yarn run test
+$ yarn test
 
 # Alternatively, run this to generate a coverage report
-$ yarn run test:coverage
+$ yarn test:coverage
 ```
 
 Note that [`clearMocks`](https://jestjs.io/docs/configuration#clearmocks-boolean) is set to `true`, which Jest will automatically clear mock calls and instances before every test.
