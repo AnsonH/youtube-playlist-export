@@ -2,7 +2,7 @@
   <img src="./assets/logo.svg" width="100" height="100" alt="Logo">
   <h1>youtube-playlist-export</h1>
   <p>Node.js command line app for exporting video data from a YouTube playlist to a JSON/CSV file.</p>
-  <img src="./assets/demo.gif" width="720" alt="Demo">
+  <img src="https://user-images.githubusercontent.com/57580593/200277221-c2b47700-70b8-41d0-9a74-9a995904ece6.gif" width="800" alt="Demo">
 </div>
 
 ## About
