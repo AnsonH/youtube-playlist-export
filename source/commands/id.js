@@ -104,7 +104,11 @@ function handleApiError(error) {
       break;
     case "playlistNotFound":
       console.error(c.red(`ERROR (${status}): Playlist cannot be found.`));
-      console.error(c.red("This may be because the playlist visibility is set to private."));
+      console.error(
+        c.red(
+          "This may be because the playlist visibility is set to private. If so, please make it unlisted or public."
+        )
+      );
       break;
     default:
       console.error(c.red(`ERROR (${status} ${reason}): Something went wrong. Please try again!`));

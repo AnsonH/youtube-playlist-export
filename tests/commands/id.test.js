@@ -37,7 +37,6 @@ const saveFileOptions = {
   playlistTitle: stubs.playlist.title,
 };
 
-const errorQuotaExceeded = JSON.stringify({ status: 403, reason: "quotaExceeded" });
 const errorPlaylistNotFound = JSON.stringify({ status: 404, reason: "playlistNotFound" });
 
 describe("id command", () => {
@@ -78,11 +77,11 @@ describe("id command", () => {
       it("should resolve to false if failed to fetch playlist metadata", async () => {
         expect.assertions(2);
         api.getPlaylistMetadata.mockImplementationOnce(() => {
-          throw new Error(errorQuotaExceeded);
+          throw new Error(errorPlaylistNotFound);
         });
 
         const status = await idActionHandler(stubs.playlist.playlistId, { default: false });
-        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorQuotaExceeded));
+        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorPlaylistNotFound));
         expect(status).toBe(false);
       });
 
@@ -103,24 +102,24 @@ describe("id command", () => {
       it("should resolve to false if failed to fetch playlist data and --default is true", async () => {
         expect.assertions(2);
         api.getPlaylistData.mockImplementationOnce(() => {
-          throw new Error(errorQuotaExceeded);
+          throw new Error(errorPlaylistNotFound);
         });
         api.getPlaylistMetadata.mockResolvedValueOnce(stubs.playlist.playlistMetadata);
 
         const status = await idActionHandler(stubs.playlist.playlistId, { default: true });
-        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorQuotaExceeded));
+        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorPlaylistNotFound));
         expect(status).toBe(false);
       });
 
       it("should resolve to false if failed to fetch playlist data and --default is false", async () => {
         expect.assertions(2);
         api.getPlaylistData.mockImplementationOnce(() => {
-          throw new Error(errorQuotaExceeded);
+          throw new Error(errorPlaylistNotFound);
         });
         api.getPlaylistMetadata.mockResolvedValueOnce(stubs.playlist.playlistMetadata);
 
         const status = await idActionHandler(stubs.playlist.playlistId, { default: false });
-        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorQuotaExceeded));
+        expect(handleApiErrorMock).toHaveBeenCalledWith(new Error(errorPlaylistNotFound));
         expect(status).toBe(false);
       });
     });
@@ -161,34 +160,6 @@ describe("id command", () => {
         expect(saveFile).toHaveBeenCalledWith(stubs.playlist.fullJsonOutput, saveFileOptions);
         expect(status).toBe(true);
       });
-    });
-  });
-
-  describe("handleApiError", () => {
-    it("should handle quota exceeded error", () => {
-      id.handleApiError(new Error(errorQuotaExceeded));
-      expect(c.red.mock.calls[0][0]).toBe(
-        "ERROR (403): Your API key has exceeded the daily quota of 10,000 units."
-      );
-      expect(c.red.mock.calls[1][0]).toBe(
-        "You cannot export more data until tomorrow when the quote usage resets."
-      );
-    });
-
-    it("should handle playlist not found error", () => {
-      id.handleApiError(new Error(errorPlaylistNotFound));
-      expect(c.red.mock.calls[0][0]).toBe("ERROR (404): Playlist cannot be found.");
-      expect(c.red.mock.calls[1][0]).toBe(
-        "This may be because the playlist visibility is set to private."
-      );
-    });
-
-    it("should handle other unknown error types", () => {
-      const error = { status: 403, reason: "forbidden" };
-      id.handleApiError(new Error(JSON.stringify(error)));
-      expect(c.red).toHaveBeenCalledWith(
-        `ERROR (${error.status} ${error.reason}): Something went wrong. Please try again!`
-      );
     });
   });
 });
