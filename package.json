@@ -98,9 +98,6 @@
   "lint-staged": {
     "**/*.{js,md}": [
       "prettier --write"
-    ],
-    "**/*.js": [
-      "eslint --fix"
     ]
   }
 }
