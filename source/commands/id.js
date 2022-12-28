@@ -16,10 +16,15 @@ import * as id from "./id";
 const idActionHandler = async (playlistId, options) => {
   const config = new Config();
 
-  // Check for "Watch Later"
-  if (playlistId === "WL") {
+  const unsupportedId = {
+    WL: "Watch Later",
+    LL: "Liked Videos",
+  };
+
+  // Check for unsupported playlists
+  if (Object.keys(unsupportedId).includes(playlistId)) {
     // prettier-ignore
-    console.log(c.yellow("WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."));
+    console.log(c.yellow(`WARNING: Videos in the ${unsupportedId[playlistId]} playlist cannot be retrieved through the YouTube API.`));
     console.log(c.yellow("Please try another playlist."));
     return false;
   }

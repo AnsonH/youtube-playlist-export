@@ -58,7 +58,18 @@ describe("id command", () => {
         const status = await idActionHandler("WL", { default: false });
 
         expect(c.yellow.mock.calls[0][0]).toBe(
-          "WARNING: Videos in Watch Later playlist cannot be retrieved through the YouTube API."
+          "WARNING: Videos in the Watch Later playlist cannot be retrieved through the YouTube API."
+        );
+        expect(c.yellow.mock.calls[1][0]).toBe("Please try another playlist.");
+        expect(status).toBe(false);
+      });
+
+      it("should resolve to false if playlist ID is Liked Videos", async () => {
+        expect.assertions(3);
+        const status = await idActionHandler("LL", { default: false });
+
+        expect(c.yellow.mock.calls[0][0]).toBe(
+          "WARNING: Videos in the Liked Videos playlist cannot be retrieved through the YouTube API."
         );
         expect(c.yellow.mock.calls[1][0]).toBe("Please try another playlist.");
         expect(status).toBe(false);
